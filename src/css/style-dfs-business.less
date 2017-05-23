@@ -1,0 +1,415 @@
+@import "lib-normalize";
+@import "lib-mixins";
+@import "lib-reset";
+@import "lib-rem";
+@import "lib-footer";
+
+.clearfix {
+  clear: both;
+}
+
+.banner-content {
+  height: 2.7rem;
+  position: relative;
+  background: url('https://72762681.qcloud.la/Public/img/DFS-banner.png') no-repeat;
+  background-size: cover;
+  background-position: center;
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+  }
+  .logout-icon {
+    position: absolute;
+    top: 50%;
+    right: .7rem;
+    transform: translate(0, -50%);
+    color: rgb(222, 222, 222);
+  }
+  .search-btn {
+    position: absolute;
+    top: 50%;
+    left: .7rem;
+    transform: translate(0, -50%);
+    color: #fff;
+    font-size: .8rem;
+  }
+}
+.dfs-banner {
+  width: 100vw;
+  float: left;
+}
+
+.login-container {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  position: relative;
+  .top-content {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 60vh;
+    background-color: rgb(33, 33, 33);
+    .top-content-img {
+      width: 100vw;
+    }
+  }
+  .login-content {
+    background-color: #fff;
+    width: calc(~"100vw - 2rem");
+    margin-left: 1rem;
+    padding-bottom: 2rem;
+    z-index: 2;
+    position: absolute;
+    bottom: 3rem;
+    box-shadow: 0 0 .6rem #999;
+    text-align: center;
+  }
+  .username-content,
+  .password-content {
+    position: relative;
+    padding: 1rem;
+    margin-top: 3vh;
+  }
+  .username, .password {
+    width: calc(~"70vw - 3rem");
+    border: 0;
+    box-shadow: none;
+    padding-left: 3rem;
+    border-bottom: 1px solid #ccc;
+  }
+  input::-webkit-input-placeholder {
+    color: #ccc;
+  }
+  .input-logo {
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    left: 1.8rem;
+    top: 1.3rem;
+    padding-right: .8rem;
+    border-right: 1px solid #ccc;
+  }
+  .center-btn {
+    width: 70vw;
+    height: 2rem;
+    line-height: 2rem;
+    background-color: #B62A18;
+    color: #fff;
+    font-weight: bold;
+    font-size: .8rem;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 5vh;
+  }
+  .center-btn:active {
+    background-color: #962A18;
+  }
+}
+
+.list-container {
+
+  .nav-bar {
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    .tab-container {
+      height: 2rem;
+      width: 100vw;
+      line-height: 2rem;
+      display: flex;
+      width: 100vw;
+    }
+    .nav-item {
+      flex: 1;
+      background-color: #666;
+      text-align: center;
+      color: #fff;
+      // border-right: 1px solid #fff;
+    }
+    .nav-item.active {
+      background-color: #B62A18;
+    }
+    // .nav-item:last-child {
+    //   border-right: 0;
+    // }
+  }
+  .top-content {
+    padding: .7rem;
+    padding-bottom: 1.5rem;
+    width: calc(~"100vw - 2.8rem");
+    margin: 0 .7rem;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    header {
+      // display: flex;
+      padding-right: .7rem;
+      color: #B62A18;
+      .title {
+        // flex: 8;
+        float: left;
+        padding-bottom: 1rem;
+      }
+      .order-id {
+        // flex: 1;
+        float: right;
+        text-align: right;
+      }
+    }
+    .menu-content {
+      padding: 0 5vw;
+      position: relative;
+      .menu-item {
+        display: flex;
+        padding-bottom: 1rem;
+      }
+      .left-part,
+      .right-part {
+        display: inline-block;
+        font-size: .7rem;
+      }
+      .left-part {
+        // width: 8rem;
+        flex: 5;
+        text-align: left;
+      }
+      .right-part {
+        flex: 1;
+        text-align: right;
+      }
+      .show-more {
+        position: absolute;
+        right: .2rem;
+        bottom: .2rem;
+        font-size: .7rem;
+      }
+      .show-more::after {
+        content: ' ';
+        width: 2rem;
+        height: 1px;
+        background-color: #000;
+        position: absolute;
+        bottom: -.2rem;
+        right: -.2rem;
+      }
+    }
+
+  }
+  .options-content {
+    display: flex;
+    height: 2rem;
+    line-height: 2rem;
+    background-color: #fff;
+    .options-item {
+      flex: 1;
+      text-align: center;
+      border-top: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      font-size: .7rem;
+    }
+    .options-item:last-child {
+      border-right: 0;
+    }
+    .check-icon {
+      // background: url('https://72762681.qcloud.la/Public/img/check-box.png');
+      // background-size: 1rem 1rem;
+      // position: relative;
+      // top: .2rem;
+      // display: inline-block;
+      // width: 1rem;
+      // height: 1rem;
+    }
+    .options-item.active {
+      background-color: #f0f0f0;
+      .check-icon {
+        background: url('https://72762681.qcloud.la/Public/img/check-box (2).png');
+        background-size: 1rem 1rem;
+        position: relative;
+        top: .2rem;
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+  }
+  .get-more {
+    width: 100vw;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    color: #999;
+    background-color: #f0f0f0;
+    font-size: .8rem;
+  }
+}
+
+.order-container {
+  background-color: #fff;
+  min-height: 100vh;
+  .main-content {
+    border: 1px solid #000;
+    margin: .7rem;
+    padding-bottom: 1rem;
+  }
+  .order-info {
+    border-bottom: 1px solid #ccc;
+    color: #B62A18;
+    padding-right: .7rem;
+    position: relative;
+    .top-content {
+      display: flex;
+    }
+    .user,
+    .order-id {
+      flex: 1;
+    }
+    .user {
+      margin: .3rem;
+      padding: .6rem;
+    }
+    .order-id {
+      text-align: right;
+    }
+    .user-phone {
+      display: flex;
+      color: #000;
+      font-size: .8rem;
+      margin-top: 0;
+      padding-left: .7rem;
+      position: relative;
+      top: -.2rem;
+    }
+    .refund-btn {
+      font-size: .7rem;
+      position: absolute; 
+      right: .7rem;
+      bottom: .9rem;
+      text-decoration: underline;
+    }
+  }
+  .price-content {
+    padding: 0 .7rem;
+    color: #B62A18;
+    display: flex;
+    .title,
+    .total-price {
+      flex: 1;
+    }
+    .total-price {
+      text-align: right;
+    }
+  }
+  .main-content-item {
+    padding-bottom: 1rem;
+  }
+  .menu-detail {
+    width: calc(~"100% - .6rem");
+    margin-left: .3rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: .7rem;
+    .menu-item {
+      display: flex;
+      font-size: .7rem;
+      padding: 0 .7rem;
+      margin: .3rem auto;
+    }
+    .item-text {
+      font-size: .6rem;
+    }
+    .left-part {
+      text-align: left;
+      flex: 1 1 auto;
+    }
+    .right-part {
+      text-align: right;
+      flex: 1 1 auto;
+    }
+    .product-cn,
+    .product-en {
+      font-size: .6rem;
+    }
+    .number {
+      margin: 1rem 0;
+      .right-part {
+        font-size: .8rem;
+        font-weight: bold;
+      }
+    }
+  }
+  .check-icon {
+    background: url('https://72762681.qcloud.la/Public/img/check-box-white.png');
+    background-size: 1rem 1rem;
+    position: relative;
+    top: .2rem;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+  }
+  .tab-item.active {
+    .check-icon {
+      background: url('https://72762681.qcloud.la/Public/img/check-box-white-active.png');
+      background-size: 1rem 1rem;
+    }
+  }
+}
+
+.inventory-container {
+  .table {
+    width: calc(~"100vw - .6rem");
+    margin: .3rem;
+  }
+  th {
+    text-align: center;
+    border: 1px solid #000;
+    color: #B62A18;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: .8rem;
+  }
+  td {
+    height: 1rem;
+    line-height: 1rem;
+    padding-left: .4rem;
+    border: 1px solid #000;
+    font-size: .6rem;
+  }
+}
+
+.faq-container {
+  .main-content {
+    border: 1px solid #000;
+    width: calc(~"100vw - .6rem");
+    margin: .3rem;
+    padding: .7rem 0;
+    min-height: 100vh;
+  }
+  .faq-item {
+    p {
+      margin: 0;
+      padding: 0 .4rem;
+    }
+    .title {
+      color: #B62A18;
+      font-size: .7rem;
+      padding: .4rem 0;
+      margin: 0 .4rem;
+      border-bottom: 1px solid #ccc;
+    }
+    .desc {
+      font-size: .6rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+    }
+    .desc.active {
+      max-height: 10rem;
+    }
+  }
+}

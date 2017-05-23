@@ -1,0 +1,188 @@
+[
+  {
+    "uid": 0
+  },
+  {
+    "uid": "3",
+    "coupon": [],
+    "order": [
+      {
+        "id": "88",
+        "order_id": "1489771660",
+        "product_id": "16",
+        "number": "1",
+        "shop_id": "1",
+        "uid": "3",
+        "price": "28000",
+        "order_status": "1",
+        "start_time": "2017-03-19 16:44:06",
+        "finished_time": null,
+        "bagged": "0",
+        "pickedup": "0",
+        "product": [
+          {
+            "id": "16",
+            "name": "男士滋养紧致1.2.3套装",
+            "brand_name": "欧碧泉 BIOTHERM",
+            "SKU_ID": "154511616ASD",
+            "price": "28000",
+            "worth": "30000",
+            "desc": "test",
+            "stock": "100",
+            "buying_limitation": "10",
+            "class_name": "Bags",
+            "enter_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "order_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "banner_image_urls": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "shop_id": "1",
+            "time": "2017-03-18 18:17:02"
+          }
+        ]
+      },
+      {
+        "id": "89",
+        "order_id": "1489771663",
+        "product_id": "16",
+        "number": "3",
+        "shop_id": "1",
+        "uid": "3",
+        "price": "84000",
+        "order_status": "1",
+        "start_time": "2017-03-19 16:44:05",
+        "finished_time": null,
+        "bagged": "0",
+        "pickedup": "0",
+        "product": [
+          {
+            "id": "16",
+            "name": "男士滋养紧致1.2.3套装",
+            "brand_name": "欧碧泉 BIOTHERM",
+            "SKU_ID": "154511616ASD",
+            "price": "28000",
+            "worth": "30000",
+            "desc": "test",
+            "stock": "100",
+            "buying_limitation": "10",
+            "class_name": "Bags",
+            "enter_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "order_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "banner_image_urls": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "shop_id": "1",
+            "time": "2017-03-18 18:17:02"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "uid": "5",
+    "coupon": [],
+    "order": [
+      {
+        "id": "84",
+        "order_id": "1489714132",
+        "product_id": "16",
+        "number": "6",
+        "shop_id": "1",
+        "uid": "5",
+        "price": "168000",
+        "order_status": "1",
+        "start_time": "2017-03-19 16:44:02",
+        "finished_time": null,
+        "bagged": "0",
+        "pickedup": "0",
+        "product": [
+          {
+            "id": "16",
+            "name": "男士滋养紧致1.2.3套装",
+            "brand_name": "欧碧泉 BIOTHERM",
+            "SKU_ID": "154511616ASD",
+            "price": "28000",
+            "worth": "30000",
+            "desc": "test",
+            "stock": "100",
+            "buying_limitation": "10",
+            "class_name": "Bags",
+            "enter_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "order_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "banner_image_urls": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "shop_id": "1",
+            "time": "2017-03-18 18:17:02"
+          }
+        ]
+      },
+      {
+        "id": "85",
+        "order_id": "1489714136",
+        "product_id": "16",
+        "number": "6",
+        "shop_id": "1",
+        "uid": "5",
+        "price": "168000",
+        "order_status": "1",
+        "start_time": "2017-03-19 16:44:03",
+        "finished_time": null,
+        "bagged": "0",
+        "pickedup": "0",
+        "product": [
+          {
+            "id": "16",
+            "name": "男士滋养紧致1.2.3套装",
+            "brand_name": "欧碧泉 BIOTHERM",
+            "SKU_ID": "154511616ASD",
+            "price": "28000",
+            "worth": "30000",
+            "desc": "test",
+            "stock": "100",
+            "buying_limitation": "10",
+            "class_name": "Bags",
+            "enter_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "order_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "banner_image_urls": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "shop_id": "1",
+            "time": "2017-03-18 18:17:02"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "uid": "6",
+    "coupon": [],
+    "order": [
+      {
+        "id": "113",
+        "order_id": "1489794215",
+        "product_id": "16",
+        "number": "1",
+        "shop_id": "1",
+        "uid": "6",
+        "price": "28000",
+        "order_status": "1",
+        "start_time": "2017-03-19 16:44:05",
+        "finished_time": null,
+        "bagged": "0",
+        "pickedup": "0",
+        "product": [
+          {
+            "id": "16",
+            "name": "男士滋养紧致1.2.3套装",
+            "brand_name": "欧碧泉 BIOTHERM",
+            "SKU_ID": "154511616ASD",
+            "price": "28000",
+            "worth": "30000",
+            "desc": "test",
+            "stock": "100",
+            "buying_limitation": "10",
+            "class_name": "Bags",
+            "enter_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "order_banner": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "banner_image_urls": "https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg|https://om536p71r.qnssl.com/Biotherm-Force-Supreme-Power-of-3-Set-3660732030231-Hero-Image-en-450x450.jpg",
+            "shop_id": "1",
+            "time": "2017-03-18 18:17:02"
+          }
+        ]
+      }
+    ]
+  }
+]

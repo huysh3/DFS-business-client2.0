@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-dfs-business.css">
+    <script src="https://15580083.qcloud.la/Public/js/axios.js"></script>
+    <script src="https://15580083.qcloud.la/Public/js/vue.min.js"></script>
+    <title>order</title>
+  </head>
+  <body>
+    <div id="app" class="order-container">
+      <section class="banner-content">
+        <span @click="logout" class="logout-icon">Logout</span>
+      </section>
+      <div class="main-content">
+        <div class="order-info">
+          <div class="top-content">
+            <p class="user">{{nickname}}</p>
+            <p class="order-id">{{order_id}}</p>
+          </div>
+          <p class="user-phone" v-if="phone">Phone: {{phone}}</p>
+          <p class="user-phone" style="word-break: break-all">TransactionID: {{transaction_id}}</p>
+          <span @click="refundHandler" v-if="refund == 0" class="refund-btn">REFUND</span>
+          <span v-if="refund == 'pending'" class="refund-btn" style="color: #999">WAITING</span>
+          <span v-if="refund == 1" class="refund-btn" style="color: #999">REFUNDED</span>
+        </div>
+        <div class="main-content-item" v-for="item in order">
+          <section class="menu-detail">
+            <p class="menu-item number">
+              <span class="left-part">{{item.product.name_en}}</span>
+              <span class="right-part">X{{item.number}}</span>
+            </p>
+            <p class="menu-item brand">
+              <span class="left-part">Brand</span>
+              <span class="right-part">{{item.product.brand_name}}</span>
+            </p>
+            <p class="menu-item item-text">Item:</p>
+            <p class="menu-item product-cn">
+              <span class="left-part">{{item.product.name}}</span>
+            </p>
+            <p class="menu-item sku">
+              <span class="left-part">SKU_ID#</span>
+              <span class="right-part">{{item.product.SKU_ID}}</span>
+            </p>
+          </section>
+        </div>
+        <div class="price-content">
+          <span class="title">Total Price:</span>
+          <span class="total-price">${{totalPrice}}</span>
+        </div>
+      </div>
+      <div class="takeplace" style="height: 2rem"></div>
+      <footer class="tab-bar">
+        <span @click="paidEvent" class="tab-item paid" :class="paid == 1 ? 'active' : ''">
+          <span class="check-icon"></span>
+          Paid
+        </span>
+        <span @click="baggedEvent" class="tab-item bagged" :class="bagged == 1 ? 'active' : ''">
+          <span class="check-icon"></span>
+          Bagged
+        </span>
+        <span @click="pickedUpEvent" class="tab-item pickedup" :class="pickedup == 1 ? 'active' : ''">
+          <span class="check-icon"></span>
+          Picked Up
+        </span>
+        <span @click="couponEvent" class="tab-item coupon" :class="coupon_status == 1 ? 'active': ''">
+          <span class="check-icon"></span>
+          Coupon
+        </span>
+      </footer>
+    </div>
+  </body>
+  <script src="https://15580083.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+  var domain = 'https://15580083.qcloud.la/';
+  var vm = new Vue({
+    el: '#app',
+    data: function() {
+      return {
+        order_id: '',
+        nickname:'',
+        order: '',
+        paid: '0',
+        pickedup: '0',
+        uid: '',
+        coupon_status: '0',
+        bagged: '0',
+        nickname: '',
+        totalPrice: '',
+        phone: '',
+        refund: '',
+        transaction_id: '',
+      }
+    },
+    mounted: function() {
+      this.order_id = this.getQueryString('order_id')
+      this.uid = this.getQueryString('uid')
+      this.getOrderInfo()
+    },
+    methods: {
+      getQueryString(name) {
+          var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+          var r = window.location.search.substr(1).match(reg);
+          if (r != null) {
+              return unescape(r[2]);
+          }
+          return null;
+      },
+      getOrderInfo() {
+        var _this = this
+        axios.post(domain + 'Home/shop/order_info?order_id=' + this.order_id)
+          .then(function (response) {
+            _this.nickname = response.data.nickname
+            _this.order = response.data.order
+            _this.paid = response.data.order[0].paid
+            _this.pickedup = response.data.order[0].pickedup
+            _this.bagged = response.data.order[0].bagged
+            _this.refund = response.data.order[0].refund
+            _this.coupon_status = response.data.coupon.coupon_status
+            _this.nickname = response.data.nickname
+            _this.totalPrice = response.data.total_price
+            _this.phone = response.data.phone
+            _this.transaction_id = response.data.transaction_id
+            console.log(_this.order);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
+      couponEvent() {
+        var _this = this
+        axios.post(domain + 'Home/shop/couponChange?uid=' + this.uid)
+          .then(function (response) {
+            console.log(response.data)
+            $('.coupon').addClass('active')
+              _this.coupon_status = 1 - _this.coupon_status
+
+          })
+          .catch(function (error) {
+
+          })
+      },
+      pickedUpEvent() {
+        var _this = this
+        axios.post(domain + 'Home/shop/pickedupChange?order_id=' + this.order_id)
+          .then(function (response) {
+            console.log(response.data)
+            $('.pickedup').addClass('active')
+            _this.pickedup = 1 - _this.pickedup
+          })
+          .catch(function (error) {
+
+          })
+      },
+      paidEvent() {
+        var _this = this
+        if (confirm('Please confirm you\'re changing the PAID state.')) {
+          axios.post(domain + 'Home/shop/paidChange?order_id=' + this.order_id)
+            .then(function (response) {
+              console.log(response.data)
+              $('.paid').addClass('active')
+              _this.paid = 1 - _this.paid
+            })
+            .catch(function (error) {
+
+            })
+        }
+      },
+      baggedEvent() {
+        var _this = this
+        axios.post(domain + 'Home/shop/baggedChange?order_id=' + this.order_id)
+          .then(function (response) {
+            console.log(response.data)
+            $('.bagged').addClass('active')
+            _this.bagged = 1 - _this.bagged
+          })
+          .catch(function (error) {
+
+          })
+      },
+      logout() {
+        axios.get(domain + 'Home/shop/logout')
+          .then(function (response) {
+            if (response.data == 0) {
+              window.location.href = 'https://15580083.qcloud.la/Home/shop/client_login'
+            }
+          })
+          .catch(function (response) {
+
+          })
+      },
+      refundHandler() {
+        var _this = this
+        var t_id = prompt('Input transaction_id to confirm refund.', this.transaction_id)
+        if (t_id) {
+          var amount = prompt('Enter the refund amount($):')
+        }
+        if (!t_id || !amount) {
+          return false;
+        }
+        _this.refund = 'pending'
+        axios.get(domain + 'Pay/Wechatpay/refund?transaction_id=' + t_id + '&amount=' + amount)
+          .then(function (response) {
+            console.log(response.data)
+            if (response.data == 'success') {
+              alert(response.data)
+              _this.refund = '1'
+            } else {
+              alert(response.data)
+              _this.refund = '0'
+            }
+          })
+          .catch(function (response) {
+
+          })
+      },
+      routerGoList() {
+        window.location.href = 'https://15580083.qcloud.la/Home/shop/client_list'
+      },
+      routerGoInventory() {
+        window.location.href = 'https://15580083.qcloud.la/Home/shop/client_inventory'
+      },
+      routerGoFAQs() {
+        window.location.href = 'https://15580083.qcloud.la/Home/shop/client_FAQs'
+      },
+    }
+  })
+  </script>
+</html>
