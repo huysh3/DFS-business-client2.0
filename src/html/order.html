@@ -90,9 +90,10 @@
                 </header>
                 <image class="content--image" :src="item.product.order_banner"></image>
                 <div class="content--value-content">
-                  <div class="value--left-part">Items： {{order.length}}</div>
+                  <div class="value--left-part" style="margin: 0;">Items： {{order.length}}</div>
                   <div class="value--right-part">总价： <span class="price">￥{{item.price}}</span></div>
                 </div>
+                <!--<svg id="code128"></svg>-->
               </div>
           </div>
         <div class="swiper-pagination swiper-pagination-fraction"></div>
@@ -101,7 +102,8 @@
     </div>
   </body>
   <script src="https://15580083.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
-  <script src="../js/swiper.min.js" charset="utf-8"></script>
+  <script src="https://15580083.qcloud.la/Public/js/swiper.min.js" charset="utf-8"></script>
+  <script src="https://15580083.qcloud.la/Public/js/JsBarcode.all.min.js" charset="utf-8"></script>
   <script>
     $(document).ready(function () {
       // window.mySwiper = new Swiper ('.swiper-container', {
@@ -211,6 +213,14 @@
         setTimeout(function() {
           mySwiper.update()
         }, 10)
+        // setTimeout(function() {
+        //   JsBarcode("#code128", "1234", {
+        //     format: "code128",
+        //     displayValue: false,
+        //     height: 50,
+        //     width: 5
+        //   });          
+        // }, 10)
       },
       pickedUpEvent() {
         var _this = this
@@ -253,7 +263,7 @@
       logout() {
         axios.get(domain + 'V1/shop/logout')
           .then(function (response) {
-            if (response.data == 0) {
+            if (response.data.data == 0) {
               window.location.href = 'https://15580083.qcloud.la/V1/shop/client_login'
             }
           })
