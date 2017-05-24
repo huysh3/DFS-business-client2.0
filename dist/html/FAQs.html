@@ -7,15 +7,18 @@
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-dfs-business.css">
-    <script src="https://15580083.qcloud.la/Public/js/axios.js"></script>
+    <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-swarovski-business.css">
+    <script src="https://15580083.qcloud.la/Public/js/axios.min.js"></script>
     <script src="https://15580083.qcloud.la/Public/js/vue.min.js"></script>
     <title>FAQs</title>
   </head>
   <body>
     <div id="app" class="faq-container">
-      <section class="banner-content">
-        <span @click="logout" class="logout-icon">Logout</span>
-      </section>
+      <header class="swarovski--header">
+        <image @click="routerGoHome" src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqghtp5aj301a019gld.jpg" class="left-icon"></image>
+        <p class="title">Tom Kruger</p>
+        <span @click="logout" class="right-icon">注销</span>
+      </header>
       <section class="main-content">
         <div class="faq-item" v-for="item in list">
           <p class="title" @click="showDesc(item.id)">{{item.title}}</p>
@@ -25,11 +28,6 @@
         </div>
       </section>
       <div class="takeplace" style="height: 2rem"></div>
-      <footer class="tab-bar">
-        <span @click="routerGoList" class="tab-item">List</span>
-        <span @click="routerGoInventory" class="tab-item">Inventory</span>
-        <span @click="routerGoFAQs" class="tab-item active">FAQs</span>
-      </footer>
     </div>
   </body>
   <script src="https://15580083.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
@@ -121,6 +119,9 @@
       routerGoFAQs() {
         window.location.href = 'https://15580083.qcloud.la/Home/shop/client_FAQs'
       },
+      routerGoHome() {
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_navPage'
+      },      
     }
   })
   </script>

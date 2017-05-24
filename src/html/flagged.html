@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="https://72762681.qcloud.la/Public/css/style-swarovski-business.css">
-    <script src="https://72762681.qcloud.la/Public/js/axios.min.js"></script>
-    <script src="https://72762681.qcloud.la/Public/js/vue.min.js"></script>
+    <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-swarovski-business.css">
+    <script src="https://15580083.qcloud.la/Public/js/axios.min.js"></script>
+    <script src="https://15580083.qcloud.la/Public/js/vue.min.js"></script>
     <title>List</title>
     <style type="text/css">
       .get-more {
@@ -18,7 +18,7 @@
         line-height: 2rem;
         color: #999;
       }
-    </style>    
+    </style>
   </head>
   <body>
     <div id="app" class="list-container">
@@ -41,7 +41,7 @@
       <section class="list--item" v-for="item in indexList" v-show="item.order[0].pickedup == showStatus">
         <header @click="routerGoOrder(item.order_id, item.uid)" class="item--header">
           <span class="header--left-part">{{item.order_id}}</span>
-          <span class="header--right-part">{{item.nickname}}</span>
+          <span class="header--right-part">{{item.nickname}}{{item.order[0].pickedup}}</span>
         </header>
         <div class="item--info">
           <span class="info--left-part"><span class="title">Created: </span><span class="content">{{item.order[0].start_time}}</span></span>
@@ -64,67 +64,30 @@
           <div class="status--item_shipped">
             <image v-if="item.order[0].pickedup == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
             <image v-if="item.order[0].pickedup == 1" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
-            <p v-if="item.order[0].pickedup == 0" class="item--title">未发货</p>
-            <p v-if="item.order[0].pickedup == 1" class="item--title">已发货</p>
+            <p v-if="item.order[0].pickedup == 0" class="item--title">未提货</p>
+            <p v-if="item.order[0].pickedup == 1" class="item--title">已提货</p>
           </div>
         </div>
       </section>
-      <div v-if="currentPage < page" @click="showMore" class="get-more">
+      <!--未完成-->
+      <div v-if="currentPage < page && showStatus == 0" @click="showMore" class="get-more">
         点击查看更多
       </div>
-      <div v-if="currentPage >= page" class="get-more">
+      <div v-if="currentPage >= page && showStatus == 0" class="get-more">
         -- 已经到底啦 --
-      </div>      
-      <!--<div class="takeplace-88" style="height: 4.4rem;"></div>-->
-      <!--<div class="list-item-content">
-        <section class="list-item" v-for="item in indexList" v-show="item.order[0].pickedup == showStatus">
-          <div class="top-content">
-            <header>
-              <div class="title">{{item.nickname}}</div>
-              <div class="order-id">{{item.order_id}}</div>
-              <div class="clearfix"></div>
-            </header>
-            <div class="menu-content">
-              <div @click="routerGoOrder(item.order_id, item.uid)" class="show-more">More</div>
-              <div class="menu-item" v-for="order in item.order" v-show="order.pickedup == showStatus">
-                <span class="left-part">{{order.product.name_en}}</span>
-                <span class="right-part">*{{order.number}}</span>
-              </div>
-            </div>
-          </div>
-          <div class="options-content">
-            <span class="options-item picked-up-check" :class="item.order[0].paid == 1 ? 'active' : ''">
-              <span class="check-icon"></span>
-              Paid
-            </span>
-            <span class="options-item bagged-check" :class="item.order[0].bagged == 1 ? 'active' : ''">
-              <span class="check-icon"></span>
-              Bagged
-            </span>
-            <span class="options-item picked-up-check" :class="item.order[0].pickedup == 1 ? 'active' : ''">
-              <span class="check-icon"></span>
-              Picked Up
-            </span>
-          </div>
-        </section>
-        <div v-if="currentPage < page" @click="showMore" class="get-more">
-          Click for more orders
-        </div>
-        <div v-if="currentPage >= page" class="get-more">
-          -- Bottom --
-        </div>
+      </div> 
+      <!--已完成-->
+      <div v-if="finishedCurrentPage < finishedPage && showStatus == 1" @click="showMoreFinished" class="get-more">
+        点击查看更多
       </div>
-      <div class="takeplace-20" style="height: 2rem;"></div>
-      <footer class="tab-bar">
-        <span @click="routerGoList" class="tab-item active">List</span>
-        <span @click="routerGoInventory" class="tab-item">Inventory</span>
-        <span @click="routerGoFAQs" class="tab-item">FAQs</span>
-      </footer>-->
+      <div v-if="finishedCurrentPage >= finishedPage && showStatus == 1" class="get-more">
+        -- 已经到底啦 --
+      </div>            
     </div>
   </body>
-  <script src="https://72762681.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
+  <script src="https://15580083.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
   <script type="text/javascript">
-  var domain = 'https://72762681.qcloud.la/';
+  var domain = 'https://15580083.qcloud.la/';
   var vm = new Vue({
     el: '#app',
     data: function() {
@@ -133,7 +96,9 @@
         indexList: [],
         finishedOrderList: [],
         currentPage: 1,
+        finishedCurrentPage: 1,
         page: 99,
+        finishedPage: 99,
         showStatus: 0,
       }
     },
@@ -143,42 +108,66 @@
     methods: {
       getOrderList() {
         var _this = this
-        // axios.get(domain + 'V1/shop/order_list?currentPage=' + _this.currentPage)
         axios.get(domain + 'V1/shop/order_list?flagged=1&currentPage=' + _this.currentPage)
           .then(function (response) {
-            console.log(response.data)
-            _this.orderList = response.data.orderList
-            _this.page = response.data.page
+            console.log(response.data.data)
+            _this.orderList = response.data.data.orderList
+            _this.page = response.data.data.page
             _this.indexList = _this.indexList.concat(_this.orderList)
           })
           .catch(function (error) {
             console.log(error);
           });
       },
+      getFinishedOrderList() {
+        var _this = this
+        axios.get(domain + 'V1/shop/finished_order_list?flagged=1&currentPage=' + _this.finishedCurrentPage)
+          .then(function (response) {
+            console.log(response.data.data)
+            _this.orderList = response.data.data.orderList
+            _this.page = response.data.data.page
+            _this.indexList = _this.indexList.concat(_this.orderList)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });        
+      },      
       showMore() {
         this.currentPage ++
         this.getOrderList()
+      },
+      showMoreFinished() {
+        this.finishedCurrentPage ++
+        this.getFinishedOrderList()
       },
       showOrderList() {
         $('.list--tab span').removeClass('active')
         $('.tab--left-part_primary').addClass('active')
         this.showStatus = 0
+        this.currentPage = 1
+        this.orderList = []
+        this.indexList = []
+        this.getOrderList()
       },
       showFinishedOrderList() {
         $('.list--tab span').removeClass('active')
         $('.tab--right-part_primary').addClass('active')
         this.showStatus = 1
+        this.finishedCurrentPage = 1
+        this.finishedOrderList = []
+        this.indexList = []
+        this.getFinishedOrderList()
       },
       search() {
         var _this = this
         var a = prompt('Search by mobile or order id')
         if (a == null) {
           return false;
-        }        
+        }
         axios.get(domain + 'V1/shop/likeSearch?string=' + a)
           .then(function (response) {
             console.log(response.data)
-            _this.orderList = response.data
+            _this.orderList = response.data.data
             _this.indexList = _this.orderList
           })
           .catch(function (error) {
@@ -188,8 +177,8 @@
       logout() {
         axios.get(domain + 'V1/shop/logout')
           .then(function (response) {
-            if (response.data == 0) {
-              window.location.href = 'https://72762681.qcloud.la/V1/shop/client_login'
+            if (response.data.data == 0) {
+              window.location.href = 'https://15580083.qcloud.la/V1/shop/client_login'
             }
           })
           .catch(function (response) {
@@ -197,19 +186,19 @@
           })
       },
       routerGoHome() {
-        window.location.href = 'https://72762681.qcloud.la/V1/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_navPage'
       },
       routerGoOrder(order_id, uid) {
-        window.location.href = 'https://72762681.qcloud.la/V1/shop/client_order?order_id=' + order_id + '&uid=' + uid
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_order?order_id=' + order_id + '&uid=' + uid
       },
       routerGoList() {
-        window.location.href = 'https://72762681.qcloud.la/V1/shop/client_list'
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_list'
       },
       routerGoInventory() {
-        window.location.href = 'https://72762681.qcloud.la/V1/shop/client_inventory'
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_inventory'
       },
       routerGoFAQs() {
-        window.location.href = 'https://72762681.qcloud.la/V1/shop/client_FAQs'
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_FAQs'
       },
     }
   })

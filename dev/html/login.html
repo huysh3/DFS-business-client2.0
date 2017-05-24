@@ -7,8 +7,8 @@
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-dfs-business.css">
-    <script src="https://72762681.qcloud.la/Public/js/axios.js"></script>
-    <script src="https://72762681.qcloud.la/Public/js/vue.min.js"></script>
+    <script src="https://15580083.qcloud.la/Public/js/axios.js"></script>
+    <script src="https://15580083.qcloud.la/Public/js/vue.min.js"></script>
     <title>Login</title>
     <style type="text/css">
       .login-container .top-content {
@@ -29,20 +29,20 @@
       </div>
       <div class="login-content">
         <div class="username-content">
-          <img class="input-logo" src="https://72762681.qcloud.la/Public/img/user.png" alt="">
+          <img class="input-logo" src="https://15580083.qcloud.la/Public/img/user.png" alt="">
           <input type="text" class="username" placeholder="账号" v-model="usernameInput">
         </div>
         <div class="password-content">
-          <img class="input-logo" src="https://72762681.qcloud.la/Public/img/lock.png" alt="">
+          <img class="input-logo" src="https://15580083.qcloud.la/Public/img/lock.png" alt="">
           <input type="password" class="password" placeholder="密码" v-model="passwordInput">
         </div>
         <div @click="login" class="center-btn">Login</div>
       </div>
     </div>
   </body>
-  <script src="https://72762681.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
+  <script src="https://15580083.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
   <script type="text/javascript">
-  var domain = 'https://72762681.qcloud.la/';
+  var domain = 'https://15580083.qcloud.la/';
   var vm = new Vue({
     el: '#app',
     data: function() {
@@ -59,7 +59,7 @@
         axios.get(domain + 'V1/shop/login?shopadmin_account=' + _this.usernameInput + '&shopadmin_password=' + _this.passwordInput)
           .then(function (response) {
             if (response.data == 0) {
-              window.location.href = 'https://72762681.qcloud.la/V1/shop/client_list'
+              window.location.href = 'https://15580083.qcloud.la/V1/shop/client_list'
             } else {
               alert(response.data)
             }

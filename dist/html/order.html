@@ -6,75 +6,112 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="format-detection" content="telephone=no">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-dfs-business.css">
-    <script src="https://15580083.qcloud.la/Public/js/axios.js"></script>
+    <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-swarovski-business.css">
+    <script src="https://15580083.qcloud.la/Public/js/axios.min.js"></script>
     <script src="https://15580083.qcloud.la/Public/js/vue.min.js"></script>
     <title>order</title>
+    <style type="text/css">
+      .detail--userinfo_container {
+        text-align: left;
+        width: 12rem;
+        position: absolute;
+        top: 2.4rem;
+        left: .4rem;
+        line-height: 2.1rem;
+      }
+    </style>
   </head>
   <body>
     <div id="app" class="order-container">
-      <section class="banner-content">
-        <span @click="logout" class="logout-icon">Logout</span>
+      <header class="swarovski--header">
+        <image @click="routerGoHome" src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqghtp5aj301a019gld.jpg" class="left-icon"></image>
+        <p class="title">Tom Kruger</p>
+        <!--<image src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqdcuxmsj301u0193y9.jpg" class="right-icon"></image>-->
+        <span @click="logout" class="right-icon">注销</span>
+      </header>
+      <section class="list--tab">
+        <span @click="showDetail" class="tab--left-part_primary active">订单详情</span>
+        <span @click="showContent" class="tab--right-part_primary">订单内容</span>
       </section>
-      <div class="main-content">
-        <div class="order-info">
-          <div class="top-content">
-            <p class="user">{{nickname}}</p>
-            <p class="order-id">{{order_id}}</p>
+      <section v-if="tabStatus == 'detail'" class="order--content_detail">
+        <header class="content--detail__header red">
+          <span class="detail--header_left">{{order_id}}</span>
+          <span class="detail--header_right">{{nickname}}</span>
+        </header>
+        <div class="content--detail__container">
+          <p class="detail-container--item_absolute">创建时间: <span class="item--value">{{start_time}}</span></p>
+          <p class="detail-container--item">商品数: <span class="item--value">{{order.length}}</span></p>
+          <p class="detail-container--item">是否需要收据: <span class="item--value">{{receipt == 0 ? '否' : '是'}}</span></p>
+          <p v-if="refund == 0" class="detail-container--item"><span @click="refundHandler">点击退款</span></p>
+          <p v-if="refund == 1" class="detail-container--item">已退款</p>
+          <p v-show="flagged == 0" class="detail-container--item"><span @click="flaggedHandler">点击收藏</span></p>
+          <p v-show="flagged == 1" class="detail-container--item"><span @click="flaggedHandler">已收藏</span></p>
+          <p class="detail-container--item">总价: <span class="item--value red">￥{{totalPrice}}</span></p>
+          <div class="detail--userinfo_container">
+            <div><span>收件人: </span><span>{{consignee}}</span></div>
+            <div><span>电话: </span><span>{{phone}}</span></div>
+            <div><span>收货地址: </span><span>{{address}}</span></div>
           </div>
-          <p class="user-phone" v-if="phone">Phone: {{phone}}</p>
-          <p class="user-phone" style="word-break: break-all">TransactionID: {{transaction_id}}</p>
-          <span @click="refundHandler" v-if="refund == 0" class="refund-btn">REFUND</span>
-          <span v-if="refund == 'pending'" class="refund-btn" style="color: #999">WAITING</span>
-          <span v-if="refund == 1" class="refund-btn" style="color: #999">REFUNDED</span>
         </div>
-        <div class="main-content-item" v-for="item in order">
-          <section class="menu-detail">
-            <p class="menu-item number">
-              <span class="left-part">{{item.product.name_en}}</span>
-              <span class="right-part">X{{item.number}}</span>
-            </p>
-            <p class="menu-item brand">
-              <span class="left-part">Brand</span>
-              <span class="right-part">{{item.product.brand_name}}</span>
-            </p>
-            <p class="menu-item item-text">Item:</p>
-            <p class="menu-item product-cn">
-              <span class="left-part">{{item.product.name}}</span>
-            </p>
-            <p class="menu-item sku">
-              <span class="left-part">SKU_ID#</span>
-              <span class="right-part">{{item.product.SKU_ID}}</span>
-            </p>
-          </section>
-        </div>
-        <div class="price-content">
-          <span class="title">Total Price:</span>
-          <span class="total-price">${{totalPrice}}</span>
-        </div>
+        <header class="content--options__header blue">
+          <span class="detail--header_left">Status</span>
+          <span class="detail--header_right">{{nickname}}</span>
+        </header>
+        <div class="content--options__container">
+          <div class="options-container--item">
+            <image v-if="paid == 0" class="item--image" src="http://ww3.sinaimg.cn/large/006tKfTcgy1ffizt3nsq6j302i02igle.jpg"></image>
+            <image v-if="paid == 1" class="item--image" src="http://ww2.sinaimg.cn/large/006tKfTcgy1ffizqca8onj3050050mx3.jpg"></image>
+            <div v-if="paid == 0" class="item--title">未支付</div>
+            <div v-if="paid == 1" class="item--title">已支付</div>
+          </div>
+          <div class="options-container--item" @click="baggedEvent">
+            <image v-if="bagged == 0" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsmo6gkj302i02iwe9.jpg"></image>
+            <image v-if="bagged == 1" class="item--image" src="http://ww4.sinaimg.cn/large/006tKfTcgy1ffizs9iwbfj3050050745.jpg"></image>
+            <div v-if="bagged == 0" class="item--title">未打包</div>
+            <div v-if="bagged == 1" class="item--title">已打包</div>
+          </div>
+          <div class="options-container--item" @click="pickedUpEvent">
+            <image v-if="pickedup == 0" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
+            <image v-if="pickedup == 1" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
+            <div v-if="pickedup == 0" class="item--title">未发货</div>
+            <div v-if="pickedup == 1" class="item--title">已发货</div>
+          </div>
+        </div>        
+      </section>
+      <div class="order--content_items" v-if="tabStatus == 'content'">
+        <div class="takeplace" style="height: 1rem; background-color: #f0f0f0"></div>
+        <section class="swiper-container">
+          <div class="swiper-wrapper">
+              <div class="swiper-slide" v-for="item in order.order">
+                <header class="content--detail__header red">
+                  <span class="detail--header_left">{{order_id}}</span>
+                  <span class="detail--header_right">{{item.product.name}}</span>
+                </header>
+                <image class="content--image" :src="item.product.order_banner"></image>
+                <div class="content--value-content">
+                  <div class="value--left-part">数量： {{order.length}}</div>
+                  <div class="value--right-part">总价： <span class="price">￥{{item.price}}</span></div>
+                </div>
+              </div>
+          </div>
+        <div class="swiper-pagination swiper-pagination-fraction"></div>
+        </section>
       </div>
-      <div class="takeplace" style="height: 2rem"></div>
-      <footer class="tab-bar">
-        <span @click="paidEvent" class="tab-item paid" :class="paid == 1 ? 'active' : ''">
-          <span class="check-icon"></span>
-          Paid
-        </span>
-        <span @click="baggedEvent" class="tab-item bagged" :class="bagged == 1 ? 'active' : ''">
-          <span class="check-icon"></span>
-          Bagged
-        </span>
-        <span @click="pickedUpEvent" class="tab-item pickedup" :class="pickedup == 1 ? 'active' : ''">
-          <span class="check-icon"></span>
-          Picked Up
-        </span>
-        <span @click="couponEvent" class="tab-item coupon" :class="coupon_status == 1 ? 'active': ''">
-          <span class="check-icon"></span>
-          Coupon
-        </span>
-      </footer>
     </div>
   </body>
   <script src="https://15580083.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
+  <script src="https://15580083.qcloud.la/Public/js/swiper.min.js" charset="utf-8"></script>
+  <script>
+    $(document).ready(function () {
+      // window.mySwiper = new Swiper ('.swiper-container', {
+      //   direction: 'horizontal',
+      //   loop: true,
+      //   pagination : '.swiper-pagination',
+      //   centeredSlides: true,
+      //   width : window.innerWidth,
+      // })      
+    })    
+  </script>
   <script type="text/javascript">
   var domain = 'https://15580083.qcloud.la/';
   var vm = new Vue({
@@ -83,7 +120,7 @@
       return {
         order_id: '',
         nickname:'',
-        order: '',
+        order: {orders},
         paid: '0',
         pickedup: '0',
         uid: '',
@@ -93,13 +130,20 @@
         totalPrice: '',
         phone: '',
         refund: '',
-        transaction_id: '',
+        receipt: '',
+        sn: '',
+        start_time: '',
+        flagged: '',
+        consignee: '',
+        address: '',
+        tabStatus: 'detail'
       }
     },
     mounted: function() {
       this.order_id = this.getQueryString('order_id')
       this.uid = this.getQueryString('uid')
       this.getOrderInfo()
+      console.log({orders})
     },
     methods: {
       getQueryString(name) {
@@ -112,41 +156,54 @@
       },
       getOrderInfo() {
         var _this = this
-        axios.post(domain + 'Home/shop/order_info?order_id=' + this.order_id)
+        axios.post(domain + 'V1/shop/order_info?order_id=' + this.order_id)
           .then(function (response) {
             _this.nickname = response.data.nickname
-            _this.order = response.data.order
             _this.paid = response.data.order[0].paid
             _this.pickedup = response.data.order[0].pickedup
             _this.bagged = response.data.order[0].bagged
             _this.refund = response.data.order[0].refund
-            _this.coupon_status = response.data.coupon.coupon_status
+            _this.start_time = response.data.order[0].start_time
+            _this.receipt = response.data.order[0].receipt
+            _this.flagged = response.data.order[0].flagged
+            _this.consignee = response.data.order[0].consignee
+            _this.address = response.data.order[0].address
             _this.nickname = response.data.nickname
             _this.totalPrice = response.data.total_price
-            _this.phone = response.data.phone
-            _this.transaction_id = response.data.transaction_id
+            _this.phone = response.data.order[0].phone
+            _this.sn = response.data.sn
             console.log(_this.order);
           })
           .catch(function (error) {
             console.log(error);
           });
       },
-      couponEvent() {
-        var _this = this
-        axios.post(domain + 'Home/shop/couponChange?uid=' + this.uid)
-          .then(function (response) {
-            console.log(response.data)
-            $('.coupon').addClass('active')
-              _this.coupon_status = 1 - _this.coupon_status
-
+      showDetail() {
+        this.tabStatus = 'detail'
+        $('.list--tab span').removeClass('active')
+        $('.tab--left-part_primary').addClass('active')
+      },
+      showContent() {
+        this.tabStatus = 'content'
+        $('.list--tab span').removeClass('active')
+        $('.tab--right-part_primary').addClass('active')
+        setTimeout(function() {
+          window.mySwiper = new Swiper ('.swiper-container', {
+            direction: 'horizontal',
+            loop: true,
+            pagination : '.swiper-pagination',
+            centeredSlides: true,
+            width : window.innerWidth,
           })
-          .catch(function (error) {
-
-          })
+        }, 0)
+        setTimeout(function() {
+          mySwiper.update()
+        }, 10)
+        
       },
       pickedUpEvent() {
         var _this = this
-        axios.post(domain + 'Home/shop/pickedupChange?order_id=' + this.order_id)
+        axios.post(domain + 'V1/shop/pickedupChange?order_id=' + this.order_id)
           .then(function (response) {
             console.log(response.data)
             $('.pickedup').addClass('active')
@@ -159,7 +216,7 @@
       paidEvent() {
         var _this = this
         if (confirm('Please confirm you\'re changing the PAID state.')) {
-          axios.post(domain + 'Home/shop/paidChange?order_id=' + this.order_id)
+          axios.post(domain + 'V1/shop/paidChange?order_id=' + this.order_id)
             .then(function (response) {
               console.log(response.data)
               $('.paid').addClass('active')
@@ -172,7 +229,7 @@
       },
       baggedEvent() {
         var _this = this
-        axios.post(domain + 'Home/shop/baggedChange?order_id=' + this.order_id)
+        axios.post(domain + 'V1/shop/baggedChange?order_id=' + this.order_id)
           .then(function (response) {
             console.log(response.data)
             $('.bagged').addClass('active')
@@ -183,19 +240,33 @@
           })
       },
       logout() {
-        axios.get(domain + 'Home/shop/logout')
+        axios.get(domain + 'V1/shop/logout')
           .then(function (response) {
             if (response.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/Home/shop/client_login'
+              window.location.href = 'https://15580083.qcloud.la/V1/shop/client_login'
             }
           })
           .catch(function (response) {
 
           })
       },
+      flaggedHandler() {
+        var _this = this
+        axios.post(domain + 'V1/shop/flaggedChange?order_id=' + this.order_id)
+            .then(function (response) {
+              if (response.data == 'success') {
+                _this.flagged = 1 - _this.flagged
+              } else {
+                alert('网络超时，请刷新重试')
+              }
+            })
+            .catch(function (response) {
+
+            })
+      },
       refundHandler() {
         var _this = this
-        var t_id = prompt('Input transaction_id to confirm refund.', this.transaction_id)
+        var t_id = prompt('输入SN码并确认退款', this.sn)
         if (t_id) {
           var amount = prompt('Enter the refund amount($):')
         }
@@ -219,13 +290,16 @@
           })
       },
       routerGoList() {
-        window.location.href = 'https://15580083.qcloud.la/Home/shop/client_list'
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_list'
       },
       routerGoInventory() {
-        window.location.href = 'https://15580083.qcloud.la/Home/shop/client_inventory'
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_inventory'
       },
       routerGoFAQs() {
-        window.location.href = 'https://15580083.qcloud.la/Home/shop/client_FAQs'
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_FAQs'
+      },
+      routerGoHome() {
+        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_navPage'
       },
     }
   })
