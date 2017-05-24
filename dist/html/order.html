@@ -156,7 +156,7 @@
       },
       getOrderInfo() {
         var _this = this
-        axios.post(domain + 'V1/shop/order_info?order_id=' + this.order_id)
+        axios.post(domain + 'V2/shop/order_info?order_id=' + this.order_id)
           .then(function (response) {
             _this.nickname = response.data.nickname
             _this.paid = response.data.order[0].paid
@@ -203,7 +203,7 @@
       },
       pickedUpEvent() {
         var _this = this
-        axios.post(domain + 'V1/shop/pickedupChange?order_id=' + this.order_id)
+        axios.post(domain + 'V2/shop/pickedupChange?order_id=' + this.order_id)
           .then(function (response) {
             console.log(response.data)
             $('.pickedup').addClass('active')
@@ -216,7 +216,7 @@
       paidEvent() {
         var _this = this
         if (confirm('Please confirm you\'re changing the PAID state.')) {
-          axios.post(domain + 'V1/shop/paidChange?order_id=' + this.order_id)
+          axios.post(domain + 'V2/shop/paidChange?order_id=' + this.order_id)
             .then(function (response) {
               console.log(response.data)
               $('.paid').addClass('active')
@@ -229,7 +229,7 @@
       },
       baggedEvent() {
         var _this = this
-        axios.post(domain + 'V1/shop/baggedChange?order_id=' + this.order_id)
+        axios.post(domain + 'V2/shop/baggedChange?order_id=' + this.order_id)
           .then(function (response) {
             console.log(response.data)
             $('.bagged').addClass('active')
@@ -240,10 +240,10 @@
           })
       },
       logout() {
-        axios.get(domain + 'V1/shop/logout')
+        axios.get(domain + 'V2/shop/logout')
           .then(function (response) {
             if (response.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/V1/shop/client_login'
+              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
             }
           })
           .catch(function (response) {
@@ -252,7 +252,7 @@
       },
       flaggedHandler() {
         var _this = this
-        axios.post(domain + 'V1/shop/flaggedChange?order_id=' + this.order_id)
+        axios.post(domain + 'V2/shop/flaggedChange?order_id=' + this.order_id)
             .then(function (response) {
               if (response.data == 'success') {
                 _this.flagged = 1 - _this.flagged
@@ -290,16 +290,16 @@
           })
       },
       routerGoList() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_list'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_list'
       },
       routerGoInventory() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_inventory'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_inventory'
       },
       routerGoFAQs() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_FAQs'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_FAQs'
       },
       routerGoHome() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
       },
     }
   })

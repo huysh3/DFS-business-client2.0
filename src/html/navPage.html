@@ -39,25 +39,25 @@
     },
     methods: {
       routerGoHome() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
       },      
       routerGoFlagged() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_flagged'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_flagged'
       },
       routerGoList() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_list'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_list'
       },
       routerGoInventory() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_inventory'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_inventory'
       },
       routerGoFAQs() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_FAQs'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_FAQs'
       },
       logout() {
-        axios.get(domain + 'V1/shop/logout')
+        axios.get(domain + 'V2/shop/logout')
           .then(function (response) {
             if (response.data.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/V1/shop/client_login'
+              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
             }
           })
           .catch(function (response) {

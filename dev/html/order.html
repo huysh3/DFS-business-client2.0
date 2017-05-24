@@ -19,6 +19,10 @@
         left: .4rem;
         line-height: 2.1rem;
       }
+      .deco {
+        text-decoration: underline;
+        color: #F80B0B;
+      }
     </style>
   </head>
   <body>
@@ -40,12 +44,12 @@
         </header>
         <div class="content--detail__container">
           <p class="detail-container--item_absolute">Created time: <span class="item--value">{{start_time}}</span></p>
-          <p class="detail-container--item">Items: <span class="item--value">{{order.length}}</span></p>
+          <p class="detail-container--item">Items: <span class="item--value">{{item_number}}</span></p>
           <p class="detail-container--item">Need receipt: <span class="item--value">{{receipt == 0 ? 'No' : 'Yes'}}</span></p>
-          <p v-if="refund == 0" class="detail-container--item"><span @click="refundHandler">REFUND</span></p>
-          <p v-if="refund == 1" class="detail-container--item">REFUNDED</p>
-          <p v-show="flagged == 0" class="detail-container--item"><span @click="flaggedHandler">COLLECT</span></p>
-          <p v-show="flagged == 1" class="detail-container--item"><span @click="flaggedHandler">COLLECTED</span></p>
+          <p class="deco" v-if="refund == 0"><span @click="refundHandler">REFUND</span></p>
+          <p class="deco" v-if="refund == 1">REFUNDED</p>
+          <p class="deco" v-show="flagged == 0"><span @click="flaggedHandler">FLAG</span></p>
+          <p class="deco" v-show="flagged == 1"><span @click="flaggedHandler">FLAGGED</span></p>
           <p class="detail-container--item">Total fee: <span class="item--value red">￥{{totalPrice}}</span></p>
           <div class="detail--userinfo_container">
             <div v-if="consignee != ''"><span>Consignee: </span><span>{{consignee}}</span></div>
@@ -59,7 +63,7 @@
           <span class="detail--header_right">{{nickname}}</span>
         </header>
         <div class="content--options__container">
-          <div class="options-container--item">
+          <div class="options-container--item" @click="paidEvent">
             <image v-if="paid == 0" class="item--image" src="http://ww3.sinaimg.cn/large/006tKfTcgy1ffizt3nsq6j302i02igle.jpg"></image>
             <image v-if="paid == 1" class="item--image" src="http://ww2.sinaimg.cn/large/006tKfTcgy1ffizqca8onj3050050mx3.jpg"></image>
             <div v-if="paid == 0" class="item--title">Unpaid</div>
@@ -90,10 +94,10 @@
                 </header>
                 <image class="content--image" :src="item.product.order_banner"></image>
                 <div class="content--value-content">
-                  <div class="value--left-part" style="margin: 0">Items： {{order.length}}</div>
+                  <div class="value--left-part" style="margin: 0">Items： {{item.number}}</div>
                   <div class="value--right-part">总价： <span class="price">￥{{item.price}}</span></div>
                 </div>
-                <!--<svg id="code128"></svg>-->
+                <svg :id="'bar' + item.product.barcode_num"></svg>
               </div>
           </div>
         <div class="swiper-pagination swiper-pagination-fraction"></div>
@@ -133,6 +137,7 @@
         totalPrice: '',
         phone: '',
         refund: '',
+        item_number: '',
         receipt: '',
         sn: '',
         flt_num: '',
@@ -160,7 +165,7 @@
       },
       getOrderInfo() {
         var _this = this
-        axios.post(domain + 'V1/shop/order_info?order_id=' + this.order_id)
+        axios.post(domain + 'V2/shop/order_info?order_id=' + this.order_id)
           .then(function (response) {
             _this.nickname = response.data.data.nickname
             _this.order = response.data.data.order
@@ -177,6 +182,7 @@
             _this.psp_num = response.data.data.order[0].psp_num
             _this.birthdate = response.data.data.order[0].birthdate
             _this.nickname = response.data.data.nickname
+            _this.item_number = response.data.data.items
             _this.totalPrice = response.data.data.total_price
             _this.phone = response.data.data.order[0].phone
             _this.sn = response.data.data.sn
@@ -198,6 +204,7 @@
         $('.tab--left-part_primary').addClass('active')
       },
       showContent() {
+        var _this = this
         this.tabStatus = 'content'
         $('.list--tab span').removeClass('active')
         $('.tab--right-part_primary').addClass('active')
@@ -213,18 +220,22 @@
         setTimeout(function() {
           mySwiper.update()
         }, 10)
-        // setTimeout(function() {
-        //   JsBarcode("#code128", "1234", {
-        //     format: "code128",
-        //     displayValue: false,
-        //     height: 50,
-        //     width: 5
-        //   });          
-        // }, 10)
+        for(var i = 0; i < _this.order.length; i ++) {
+          console.log(i)
+          var codeNum = _this.order[i].product.barcode_num
+          setTimeout(function() {
+            JsBarcode("#bar" + codeNum, codeNum, {
+              format: "code128",
+              displayValue: false,
+              height: 50,
+              width: 5
+            });          
+          }, 10)
+        }
       },
       pickedUpEvent() {
         var _this = this
-        axios.post(domain + 'V1/shop/pickedupChange?order_id=' + this.order_id)
+        axios.post(domain + 'V2/shop/pickedupChange?order_id=' + this.order_id)
           .then(function (response) {
             console.log(response.data)
             $('.pickedup').addClass('active')
@@ -237,7 +248,7 @@
       paidEvent() {
         var _this = this
         if (confirm('Please confirm you\'re changing the PAID state.')) {
-          axios.post(domain + 'V1/shop/paidChange?order_id=' + this.order_id)
+          axios.post(domain + 'V2/shop/paidChange?order_id=' + this.order_id)
             .then(function (response) {
               console.log(response.data)
               $('.paid').addClass('active')
@@ -250,7 +261,7 @@
       },
       baggedEvent() {
         var _this = this
-        axios.post(domain + 'V1/shop/baggedChange?order_id=' + this.order_id)
+        axios.post(domain + 'V2/shop/baggedChange?order_id=' + this.order_id)
           .then(function (response) {
             console.log(response.data)
             $('.bagged').addClass('active')
@@ -261,10 +272,10 @@
           })
       },
       logout() {
-        axios.get(domain + 'V1/shop/logout')
+        axios.get(domain + 'V2/shop/logout')
           .then(function (response) {
             if (response.data.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/V1/shop/client_login'
+              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
             }
           })
           .catch(function (response) {
@@ -273,7 +284,7 @@
       },
       flaggedHandler() {
         var _this = this
-        axios.post(domain + 'V1/shop/flaggedChange?order_id=' + this.order_id)
+        axios.post(domain + 'V2/shop/flaggedChange?order_id=' + this.order_id)
             .then(function (response) {
               if (response.data == 'success') {
                 _this.flagged = 1 - _this.flagged
@@ -311,16 +322,16 @@
           })
       },
       routerGoList() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_list'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_list'
       },
       routerGoInventory() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_inventory'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_inventory'
       },
       routerGoFAQs() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_FAQs'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_FAQs'
       },
       routerGoHome() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
       },
     }
   })
