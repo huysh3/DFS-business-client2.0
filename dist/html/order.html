@@ -19,6 +19,10 @@
         left: .4rem;
         line-height: 2.1rem;
       }
+      .deco {
+        text-decoration: underline;
+        color: #F80B0B;
+      }
     </style>
   </head>
   <body>
@@ -30,8 +34,8 @@
         <span @click="logout" class="right-icon">注销</span>
       </header>
       <section class="list--tab">
-        <span @click="showDetail" class="tab--left-part_primary active">订单详情</span>
-        <span @click="showContent" class="tab--right-part_primary">订单内容</span>
+        <span @click="showDetail" class="tab--left-part_primary active">Order Info</span>
+        <span @click="showContent" class="tab--right-part_primary">Order Content</span>
       </section>
       <section v-if="tabStatus == 'detail'" class="order--content_detail">
         <header class="content--detail__header red">
@@ -39,18 +43,19 @@
           <span class="detail--header_right">{{nickname}}</span>
         </header>
         <div class="content--detail__container">
-          <p class="detail-container--item_absolute">创建时间: <span class="item--value">{{start_time}}</span></p>
-          <p class="detail-container--item">商品数: <span class="item--value">{{order.length}}</span></p>
-          <p class="detail-container--item">是否需要收据: <span class="item--value">{{receipt == 0 ? '否' : '是'}}</span></p>
-          <p v-if="refund == 0" class="detail-container--item"><span @click="refundHandler">点击退款</span></p>
-          <p v-if="refund == 1" class="detail-container--item">已退款</p>
-          <p v-show="flagged == 0" class="detail-container--item"><span @click="flaggedHandler">点击收藏</span></p>
-          <p v-show="flagged == 1" class="detail-container--item"><span @click="flaggedHandler">已收藏</span></p>
-          <p class="detail-container--item">总价: <span class="item--value red">￥{{totalPrice}}</span></p>
+          <p class="detail-container--item_absolute">Created time: <span class="item--value">{{start_time}}</span></p>
+          <p class="detail-container--item">Items: <span class="item--value">{{item_number}}</span></p>
+          <p class="detail-container--item">Need receipt: <span class="item--value">{{receipt == 0 ? 'No' : 'Yes'}}</span></p>
+          <p class="deco" v-if="refund == 0"><span @click="refundHandler">REFUND</span></p>
+          <p class="deco" v-if="refund == 1">REFUNDED</p>
+          <p class="deco" v-show="flagged == 0"><span @click="flaggedHandler">FLAG</span></p>
+          <p class="deco" v-show="flagged == 1"><span @click="flaggedHandler">FLAGGED</span></p>
+          <p class="detail-container--item">Total fee: <span class="item--value red">￥{{totalPrice}}</span></p>
           <div class="detail--userinfo_container">
-            <div><span>收件人: </span><span>{{consignee}}</span></div>
-            <div><span>电话: </span><span>{{phone}}</span></div>
-            <div><span>收货地址: </span><span>{{address}}</span></div>
+            <div v-if="consignee != ''"><span>Consignee: </span><span>{{consignee}}</span></div>
+            <div v-if="flt_num != ''"><span>Flt Number: </span><span>{{flt_num}}</span></div>
+            <div v-if="birthdate != ''"><span>Birthdate: </span><span>{{birthdate}}</span></div>
+            <div v-if="psp_num != ''"><span>PSP Number: </span><span>{{psp_num}}</span></div>
           </div>
         </div>
         <header class="content--options__header blue">
@@ -58,23 +63,23 @@
           <span class="detail--header_right">{{nickname}}</span>
         </header>
         <div class="content--options__container">
-          <div class="options-container--item">
+          <div class="options-container--item" @click="paidEvent">
             <image v-if="paid == 0" class="item--image" src="http://ww3.sinaimg.cn/large/006tKfTcgy1ffizt3nsq6j302i02igle.jpg"></image>
             <image v-if="paid == 1" class="item--image" src="http://ww2.sinaimg.cn/large/006tKfTcgy1ffizqca8onj3050050mx3.jpg"></image>
-            <div v-if="paid == 0" class="item--title">未支付</div>
-            <div v-if="paid == 1" class="item--title">已支付</div>
+            <div v-if="paid == 0" class="item--title">Unpaid</div>
+            <div v-if="paid == 1" class="item--title">Paid</div>
           </div>
           <div class="options-container--item" @click="baggedEvent">
             <image v-if="bagged == 0" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsmo6gkj302i02iwe9.jpg"></image>
             <image v-if="bagged == 1" class="item--image" src="http://ww4.sinaimg.cn/large/006tKfTcgy1ffizs9iwbfj3050050745.jpg"></image>
-            <div v-if="bagged == 0" class="item--title">未打包</div>
-            <div v-if="bagged == 1" class="item--title">已打包</div>
+            <div v-if="bagged == 0" class="item--title">Unbagged</div>
+            <div v-if="bagged == 1" class="item--title">Bagged</div>
           </div>
           <div class="options-container--item" @click="pickedUpEvent">
             <image v-if="pickedup == 0" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
             <image v-if="pickedup == 1" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
-            <div v-if="pickedup == 0" class="item--title">未发货</div>
-            <div v-if="pickedup == 1" class="item--title">已发货</div>
+            <div v-if="pickedup == 0" class="item--title">Unpicked</div>
+            <div v-if="pickedup == 1" class="item--title">Picked</div>
           </div>
         </div>        
       </section>
@@ -82,16 +87,17 @@
         <div class="takeplace" style="height: 1rem; background-color: #f0f0f0"></div>
         <section class="swiper-container">
           <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="item in order.order">
+              <div class="swiper-slide" v-for="item in order">
                 <header class="content--detail__header red">
                   <span class="detail--header_left">{{order_id}}</span>
-                  <span class="detail--header_right">{{item.product.name}}</span>
+                  <span class="detail--header_right">SKU_ID:{{item.product.SKU_ID}}</span>
                 </header>
                 <image class="content--image" :src="item.product.order_banner"></image>
                 <div class="content--value-content">
-                  <div class="value--left-part">数量： {{order.length}}</div>
+                  <div class="value--left-part" style="margin: 0">Items： {{item.number}}</div>
                   <div class="value--right-part">总价： <span class="price">￥{{item.price}}</span></div>
                 </div>
+                <svg :id="'bar' + item.product.barcode_num"></svg>
               </div>
           </div>
         <div class="swiper-pagination swiper-pagination-fraction"></div>
@@ -101,6 +107,7 @@
   </body>
   <script src="https://15580083.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
   <script src="https://15580083.qcloud.la/Public/js/swiper.min.js" charset="utf-8"></script>
+  <script src="https://15580083.qcloud.la/Public/js/JsBarcode.all.min.js" charset="utf-8"></script>
   <script>
     $(document).ready(function () {
       // window.mySwiper = new Swiper ('.swiper-container', {
@@ -120,7 +127,7 @@
       return {
         order_id: '',
         nickname:'',
-        order: {orders},
+        order: [],
         paid: '0',
         pickedup: '0',
         uid: '',
@@ -130,12 +137,15 @@
         totalPrice: '',
         phone: '',
         refund: '',
+        item_number: '',
         receipt: '',
         sn: '',
+        flt_num: '',
+        birthdate: '',
+        psp_num: '',
         start_time: '',
         flagged: '',
         consignee: '',
-        address: '',
         tabStatus: 'detail'
       }
     },
@@ -143,7 +153,6 @@
       this.order_id = this.getQueryString('order_id')
       this.uid = this.getQueryString('uid')
       this.getOrderInfo()
-      console.log({orders})
     },
     methods: {
       getQueryString(name) {
@@ -158,21 +167,32 @@
         var _this = this
         axios.post(domain + 'V2/shop/order_info?order_id=' + this.order_id)
           .then(function (response) {
-            _this.nickname = response.data.nickname
-            _this.paid = response.data.order[0].paid
-            _this.pickedup = response.data.order[0].pickedup
-            _this.bagged = response.data.order[0].bagged
-            _this.refund = response.data.order[0].refund
-            _this.start_time = response.data.order[0].start_time
-            _this.receipt = response.data.order[0].receipt
-            _this.flagged = response.data.order[0].flagged
-            _this.consignee = response.data.order[0].consignee
-            _this.address = response.data.order[0].address
-            _this.nickname = response.data.nickname
-            _this.totalPrice = response.data.total_price
-            _this.phone = response.data.order[0].phone
-            _this.sn = response.data.sn
+            _this.nickname = response.data.data.nickname
+            _this.order = response.data.data.order
+            console.log(_this.order)
+            _this.paid = response.data.data.order[0].paid
+            _this.pickedup = response.data.data.order[0].pickedup
+            _this.bagged = response.data.data.order[0].bagged
+            _this.refund = response.data.data.order[0].refund
+            _this.start_time = response.data.data.order[0].start_time
+            _this.receipt = response.data.data.order[0].receipt
+            _this.flagged = response.data.data.order[0].flagged
+            _this.consignee = response.data.data.order[0].consignee
+            _this.flt_num = response.data.data.order[0].flt_num
+            _this.psp_num = response.data.data.order[0].psp_num
+            _this.birthdate = response.data.data.order[0].birthdate
+            _this.nickname = response.data.data.nickname
+            _this.item_number = response.data.data.items
+            _this.totalPrice = response.data.data.total_price
+            _this.phone = response.data.data.order[0].phone
+            _this.sn = response.data.data.sn
             console.log(_this.order);
+            var right = $('.content--detail__container').height()
+            Vue.nextTick(function () {
+              // DOM 更新了
+              var left = $('.detail--userinfo_container').outerHeight() + $('.detail-container--item').outerHeight()
+             	$('.content--detail__container').height(left > right ? left : right)
+            })            
           })
           .catch(function (error) {
             console.log(error);
@@ -184,13 +204,14 @@
         $('.tab--left-part_primary').addClass('active')
       },
       showContent() {
+        var _this = this
         this.tabStatus = 'content'
         $('.list--tab span').removeClass('active')
         $('.tab--right-part_primary').addClass('active')
         setTimeout(function() {
           window.mySwiper = new Swiper ('.swiper-container', {
             direction: 'horizontal',
-            loop: true,
+            loop: false,
             pagination : '.swiper-pagination',
             centeredSlides: true,
             width : window.innerWidth,
@@ -199,7 +220,18 @@
         setTimeout(function() {
           mySwiper.update()
         }, 10)
-        
+        for(var i = 0; i < _this.order.length; i ++) {
+          console.log(i)
+          var codeNum = _this.order[i].product.barcode_num
+          setTimeout(function() {
+            JsBarcode("#bar" + codeNum, codeNum, {
+              format: "code128",
+              displayValue: false,
+              height: 50,
+              width: 3
+            });          
+          }, 10)
+        }
       },
       pickedUpEvent() {
         var _this = this
@@ -242,7 +274,7 @@
       logout() {
         axios.get(domain + 'V2/shop/logout')
           .then(function (response) {
-            if (response.data == 0) {
+            if (response.data.data == 0) {
               window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
             }
           })

@@ -23,11 +23,11 @@
       <section class="table-content">
         <table class="table">
           <tr>
-            <th>品名</th>
-            <th>限购数</th>
-            <th>销量</th>
-            <th>已发货数</th>
-            <th>库存</th>
+            <th>SKU_ID/item</th>
+            <th>max</th>
+            <th>ordered</th>
+            <th>pickedup</th>
+            <th>stock</th>
           </tr>
           <tr v-for="item in lists">
             <td>{{item.item}}<br>{{item.SKU_ID}}</td>
@@ -57,9 +57,9 @@
     methods: {
       getInventory() {
         var _this = this
-        axios.get(domain + 'V1/shop/inventory_list')
+        axios.get(domain + 'V2/shop/inventory_list')
           .then(function (response) {
-            _this.lists = response.data
+            _this.lists = response.data.data
           })
           .catch(function (error) {
             console.log(error);
@@ -68,8 +68,8 @@
       logout() {
         axios.get(domain + 'Home/shop/logout')
           .then(function (response) {
-            if (response.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/V1/shop/client_login'
+            if (response.data.data == 0) {
+              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
             }
           })
           .catch(function (response) {
@@ -77,7 +77,7 @@
           })
       },
       routerGoHome() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
       },
       routerGoList() {
         window.location.href = 'https://15580083.qcloud.la/Home/shop/client_list'

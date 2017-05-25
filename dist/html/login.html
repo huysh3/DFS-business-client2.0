@@ -56,10 +56,10 @@
     methods: {
       login() {
         var _this = this
-        axios.get(domain + 'V1/shop/login?shopadmin_account=' + _this.usernameInput + '&shopadmin_password=' + _this.passwordInput)
+        axios.get(domain + 'V2/shop/login?shopadmin_account=' + _this.usernameInput + '&shopadmin_password=' + _this.passwordInput)
           .then(function (response) {
             if (response.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/V1/shop/client_list'
+              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_list'
             } else {
               alert(response.data)
             }

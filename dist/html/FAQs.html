@@ -88,22 +88,11 @@
           this.activeId = id
         }
       },
-      getSignIncomeList() {
-        var _this = this
-        axios.post('http://s.chengxinxitong.com/app1.0.0/getSignRevenueListData.action', params)
-          .then(function (response) {
-            console.log(response.data.list);
-            _this.showList = response.data.list
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      },
       logout() {
-        axios.get(domain + 'Home/shop/logout')
+        axios.get(domain + 'V2/shop/logout')
           .then(function (response) {
-            if (response.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/Home/shop/client_login'
+            if (response.data.data == 0) {
+              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
             }
           })
           .catch(function (response) {
@@ -120,7 +109,7 @@
         window.location.href = 'https://15580083.qcloud.la/Home/shop/client_FAQs'
       },
       routerGoHome() {
-        window.location.href = 'https://15580083.qcloud.la/V1/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
       },      
     }
   })
