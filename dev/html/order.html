@@ -31,7 +31,7 @@
         <image @click="routerGoHome" src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqghtp5aj301a019gld.jpg" class="left-icon"></image>
         <p class="title">DFS</p>
         <!--<image src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqdcuxmsj301u0193y9.jpg" class="right-icon"></image>-->
-        <span @click="logout" class="right-icon">注销</span>
+        <span @click="logout" class="right-icon">Logout</span>
       </header>
       <section class="list--tab">
         <span @click="showDetail" class="tab--left-part_primary active">Order Info</span>
@@ -95,7 +95,7 @@
                 <image class="content--image" :src="item.product.order_banner"></image>
                 <div class="content--value-content">
                   <div class="value--left-part" style="margin: 0">Items： {{item.number}}</div>
-                  <div class="value--right-part">总价： <span class="price">￥{{item.price}}</span></div>
+                  <div class="value--right-part">Total Price： <span class="price">￥{{item.price}}</span></div>
                 </div>
                 <svg :id="'bar' + item.product.barcode_num"></svg>
               </div>
@@ -298,7 +298,7 @@
       },
       refundHandler() {
         var _this = this
-        var t_id = prompt('输入SN码并确认退款', this.sn)
+        var t_id = prompt('Input the Transaction id and confirm the refund', this.sn)
         if (t_id) {
           var amount = prompt('Enter the refund amount($):')
         }

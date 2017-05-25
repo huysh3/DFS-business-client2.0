@@ -26,15 +26,15 @@
         <image @click="routerGoHome" src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqghtp5aj301a019gld.jpg" class="left-icon"></image>
         <p class="title">DFS</p>
         <!--<image src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqdcuxmsj301u0193y9.jpg" class="right-icon"></image>-->
-        <span @click="logout" class="right-icon">注销</span>
+        <span @click="logout" class="right-icon">Logout</span>
       </header>
       <section class="list--tab">
-        <span @click="showOrderList" class="tab--left-part_primary active">进行中</span>
-        <span @click="showFinishedOrderList" class="tab--right-part_primary">已完成</span>
+        <span @click="showOrderList" class="tab--left-part_primary active">Pending</span>
+        <span @click="showFinishedOrderList" class="tab--right-part_primary">Finished</span>
       </section>
 
       <section class="list-search--btn">
-        <div @click="search" class="search--btn">搜索</div>
+        <div @click="search" class="search--btn">Search</div>
       </section>
 
       <!-- 用于循环 -->
@@ -52,36 +52,36 @@
           <div class="status--item_paid">
             <image v-if="item.order[0].paid == 0" class="item--icon" src="http://ww3.sinaimg.cn/large/006tKfTcgy1ffizt3nsq6j302i02igle.jpg"></image>
             <image v-if="item.order[0].paid == 1" class="item--icon" src="http://ww2.sinaimg.cn/large/006tKfTcgy1ffizqca8onj3050050mx3.jpg"></image>
-            <p v-if="item.order[0].paid == 0" class="item--title">已支付</p>
-            <p v-if="item.order[0].paid == 1" class="item--title">已支付</p>
+            <p v-if="item.order[0].paid == 0" class="item--title">Unpaid</p>
+            <p v-if="item.order[0].paid == 1" class="item--title">Paid</p>
           </div>
           <div class="status--item_bagged">
             <image v-if="item.order[0].bagged == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsmo6gkj302i02iwe9.jpg"></image>
             <image v-if="item.order[0].bagged == 1" class="item--icon" src="http://ww4.sinaimg.cn/large/006tKfTcgy1ffizs9iwbfj3050050745.jpg"></image>
-            <p v-if="item.order[0].bagged == 0" class="item--title">未打包</p>
-            <p v-if="item.order[0].bagged == 1" class="item--title">已打包</p>
+            <p v-if="item.order[0].bagged == 0" class="item--title">Unbagged</p>
+            <p v-if="item.order[0].bagged == 1" class="item--title">Bagged</p>
           </div>
           <div class="status--item_shipped">
             <image v-if="item.order[0].pickedup == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
             <image v-if="item.order[0].pickedup == 1" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
-            <p v-if="item.order[0].pickedup == 0" class="item--title">未提货</p>
-            <p v-if="item.order[0].pickedup == 1" class="item--title">已提货</p>
+            <p v-if="item.order[0].pickedup == 0" class="item--title">Unpicked</p>
+            <p v-if="item.order[0].pickedup == 1" class="item--title">Picked</p>
           </div>
         </div>
       </section>
       <!--未完成-->
       <div v-if="currentPage < page && showStatus == 0" @click="showMore" class="get-more">
-        点击查看更多
+        Click for more
       </div>
       <div v-if="currentPage >= page && showStatus == 0" class="get-more">
-        -- 已经到底啦 --
+        -- No more --
       </div> 
       <!--已完成-->
       <div v-if="finishedCurrentPage < finishedPage && showStatus == 1" @click="showMoreFinished" class="get-more">
-        点击查看更多
+        Click for more
       </div>
       <div v-if="finishedCurrentPage >= finishedPage && showStatus == 1" class="get-more">
-        -- 已经到底啦 --
+        -- No more --
       </div>            
     </div>
   </body>
