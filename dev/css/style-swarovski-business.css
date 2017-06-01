@@ -1580,7 +1580,7 @@ button.swiper-pagination-bullet {
   font-size: .7rem;
   border: 1px solid #000;
   line-height: 1.2rem;
-  width: 2rem;
+  padding: 0 .2rem;
   text-align: center;
   border-radius: .1rem;
 }
@@ -1839,6 +1839,7 @@ button.swiper-pagination-bullet {
 .order-container .swiper-pagination {
   left: 50%;
   transform: translate(-50%, 0);
+  opacity: .3;
 }
 
 .order-container .swiper-pagination-bullet-active {

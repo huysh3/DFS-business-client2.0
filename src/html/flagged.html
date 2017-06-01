@@ -47,7 +47,7 @@
           <span class="info--left-part"><span class="title">Created: </span><span class="content">{{item.order[0].start_time}}</span></span>
           <span class="info--right-part"><span class="title">items: </span><span class="content">{{item.order.length}}</span></span>
         </div>
-        <p class="item--price">￥{{item.order[0].price}}</p>
+        <p class="item--price">${{item.order[0].price}}</p>
         <div class="item--status">
           <div class="status--item_paid">
             <image v-if="item.order[0].paid == 0" class="item--icon" src="http://ww3.sinaimg.cn/large/006tKfTcgy1ffizt3nsq6j302i02igle.jpg"></image>

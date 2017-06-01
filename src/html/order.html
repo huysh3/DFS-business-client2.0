@@ -50,7 +50,7 @@
           <p class="deco" v-if="refund == 1" class="detail-container--item">REFUNDED</p>
           <p class="deco" v-show="flagged == 0" class="detail-container--item"><span @click="flaggedHandler">FLAG</span></p>
           <p class="deco" v-show="flagged == 1" class="detail-container--item"><span @click="flaggedHandler">FLAGGED</span></p>
-          <p class="detail-container--item">Total fee: <span class="item--value red">￥{{totalPrice}}</span></p>
+          <p class="detail-container--item">Total fee: <span class="item--value red">${{totalPrice}}</span></p>
           <div class="detail--userinfo_container">
             <div v-if="consignee != ''"><span>Consignee: </span><span>{{consignee}}</span></div>
             <div v-if="flt_num != ''"><span>Flt Number: </span><span>{{flt_num}}</span></div>
@@ -87,7 +87,7 @@
         <div class="takeplace" style="height: 1rem; background-color: #f0f0f0"></div>
         <section class="swiper-container">
           <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="item in order">
+              <div class="swiper-slide" v-for="(item, index) in order">
                 <header class="content--detail__header red">
                   <span class="detail--header_left">{{order_id}}</span>
                   <span class="detail--header_right">SKU_ID:{{item.product.SKU_ID}}</span>
@@ -95,9 +95,9 @@
                 <image class="content--image" :src="item.product.order_banner"></image>
                 <div class="content--value-content">
                   <div class="value--left-part" style="margin: 0;">Items： {{item.number}}</div>
-                  <div class="value--right-part">Total Price： <span class="price">￥{{item.price}}</span></div>
+                  <div class="value--right-part">Total Price： <span class="price">${{item.price}}</span></div>
                 </div>
-                <svg :id="'bar' + item.product.barcode_num"></svg>
+                <svg :id="'bar' + index + item.product.barcode_num"></svg>
               </div>
           </div>
         <div class="swiper-pagination swiper-pagination-fraction"></div>
@@ -221,16 +221,26 @@
           mySwiper.update()
         }, 10)
         for(var i = 0; i < _this.order.length; i ++) {
-          console.log(i)
-          var codeNum = _this.order[i].product.barcode_num
-          setTimeout(function() {
-            JsBarcode("#bar" + codeNum, codeNum, {
-              format: "code128",
-              displayValue: false,
-              height: 50,
-              width: 3
-            });          
-          }, 10)
+          setTimeout(function(i) {
+            var codeNum = _this.order[i].product.barcode_num
+            var selector = '#bar' + i + codeNum
+            return function() {
+              JsBarcode(selector, codeNum, {
+                format: "code128",
+                displayValue: true,
+                height: 50,
+                width: 3
+              });   
+            }
+          }(i), 10)
+          // setTimeout(function() {
+            // JsBarcode(selector, codeNum, {
+            //   format: "code128",
+            //   displayValue: true,
+            //   height: 50,
+            //   width: 3
+            // });          
+          // }, 10)
         }
       },
       pickedUpEvent() {

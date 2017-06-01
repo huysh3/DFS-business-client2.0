@@ -31,7 +31,7 @@
         <image @click="routerGoHome" src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqghtp5aj301a019gld.jpg" class="left-icon"></image>
         <p class="title">DFS</p>
         <!--<image src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqdcuxmsj301u0193y9.jpg" class="right-icon"></image>-->
-        <span @click="logout" class="right-icon">注销</span>
+        <span @click="logout" class="right-icon">Logout</span>
       </header>
       <section class="list--tab">
         <span @click="showDetail" class="tab--left-part_primary active">Order Info</span>
@@ -50,7 +50,7 @@
           <p class="deco" v-if="refund == 1">REFUNDED</p>
           <p class="deco" v-show="flagged == 0"><span @click="flaggedHandler">FLAG</span></p>
           <p class="deco" v-show="flagged == 1"><span @click="flaggedHandler">FLAGGED</span></p>
-          <p class="detail-container--item">Total fee: <span class="item--value red">￥{{totalPrice}}</span></p>
+          <p class="detail-container--item">Total fee: <span class="item--value red">${{totalPrice}}</span></p>
           <div class="detail--userinfo_container">
             <div v-if="consignee != ''"><span>Consignee: </span><span>{{consignee}}</span></div>
             <div v-if="flt_num != ''"><span>Flt Number: </span><span>{{flt_num}}</span></div>
@@ -87,7 +87,7 @@
         <div class="takeplace" style="height: 1rem; background-color: #f0f0f0"></div>
         <section class="swiper-container">
           <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="item in order">
+              <div class="swiper-slide" v-for="(item, index) in order">
                 <header class="content--detail__header red">
                   <span class="detail--header_left">{{order_id}}</span>
                   <span class="detail--header_right">SKU_ID:{{item.product.SKU_ID}}</span>
@@ -95,9 +95,9 @@
                 <image class="content--image" :src="item.product.order_banner"></image>
                 <div class="content--value-content">
                   <div class="value--left-part" style="margin: 0">Items： {{item.number}}</div>
-                  <div class="value--right-part">总价： <span class="price">￥{{item.price}}</span></div>
+                  <div class="value--right-part">Total Price： <span class="price">${{item.price}}</span></div>
                 </div>
-                <svg :id="'bar' + item.product.barcode_num"></svg>
+                <svg :id="'bar' + index + item.product.barcode_num"></svg>
               </div>
           </div>
         <div class="swiper-pagination swiper-pagination-fraction"></div>
@@ -221,16 +221,26 @@
           mySwiper.update()
         }, 10)
         for(var i = 0; i < _this.order.length; i ++) {
-          console.log(i)
-          var codeNum = _this.order[i].product.barcode_num
-          setTimeout(function() {
-            JsBarcode("#bar" + codeNum, codeNum, {
-              format: "code128",
-              displayValue: false,
-              height: 50,
-              width: 3
-            });          
-          }, 10)
+          setTimeout(function(i) {
+            var codeNum = _this.order[i].product.barcode_num
+            var selector = '#bar' + i + codeNum
+            return function() {
+              JsBarcode(selector, codeNum, {
+                format: "code128",
+                displayValue: true,
+                height: 50,
+                width: 3
+              });   
+            }
+          }(i), 10)
+          // setTimeout(function() {
+            // JsBarcode(selector, codeNum, {
+            //   format: "code128",
+            //   displayValue: true,
+            //   height: 50,
+            //   width: 3
+            // });          
+          // }, 10)
         }
       },
       pickedUpEvent() {
@@ -298,7 +308,7 @@
       },
       refundHandler() {
         var _this = this
-        var t_id = prompt('输入SN码并确认退款', this.sn)
+        var t_id = prompt('Input the Transaction id and confirm the refund', this.sn)
         if (t_id) {
           var amount = prompt('Enter the refund amount($):')
         }
