@@ -78,8 +78,8 @@
           <div class="options-container--item" @click="pickedUpEvent">
             <image v-if="pickedup == 0" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
             <image v-if="pickedup == 1" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
-            <div v-if="pickedup == 0" class="item--title">Unpicked</div>
-            <div v-if="pickedup == 1" class="item--title">Picked</div>
+            <div v-if="pickedup == 0" class="item--title">Not Delivered</div>
+            <div v-if="pickedup == 1" class="item--title">Delivered</div>
           </div>
         </div>        
       </section>

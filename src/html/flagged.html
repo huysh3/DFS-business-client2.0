@@ -64,8 +64,8 @@
           <div class="status--item_shipped">
             <image v-if="item.order[0].pickedup == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
             <image v-if="item.order[0].pickedup == 1" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
-            <p v-if="item.order[0].pickedup == 0" class="item--title">Unpicked</p>
-            <p v-if="item.order[0].pickedup == 1" class="item--title">Picked</p>
+            <p v-if="item.order[0].pickedup == 0" class="item--title">Not Delivered</p>
+            <p v-if="item.order[0].pickedup == 1" class="item--title">Delivered</p>
           </div>
         </div>
       </section>
