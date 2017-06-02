@@ -45,7 +45,7 @@
         <div class="content--detail__container">
           <p class="detail-container--item_absolute">Created time: <span class="item--value">{{start_time}}</span></p>
           <p class="detail-container--item">Items: <span class="item--value">{{item_number}}</span></p>
-          <p class="detail-container--item">Need receipt: <span class="item--value">{{receipt == 0 ? 'No' : 'Yes'}}</span></p>
+          <!-- <p class="detail-container--item">Need receipt: <span class="item--value">{{receipt == 0 ? 'No' : 'Yes'}}</span></p> -->
           <p class="deco" v-if="refund == 0"><span @click="refundHandler">REFUND</span></p>
           <p class="deco" v-if="refund == 1">REFUNDED</p>
           <p class="deco" v-show="flagged == 0"><span @click="flaggedHandler">FLAG</span></p>
@@ -78,10 +78,10 @@
           <div class="options-container--item" @click="pickedUpEvent">
             <image v-if="pickedup == 0" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
             <image v-if="pickedup == 1" class="item--image" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
-            <div v-if="pickedup == 0" class="item--title">Unpicked</div>
-            <div v-if="pickedup == 1" class="item--title">Picked</div>
+            <div v-if="pickedup == 0" class="item--title">Not Delivered</div>
+            <div v-if="pickedup == 1" class="item--title">Delivered</div>
           </div>
-        </div>        
+        </div>
       </section>
       <div class="order--content_items" v-if="tabStatus == 'content'">
         <div class="takeplace" style="height: 1rem; background-color: #f0f0f0"></div>
@@ -116,8 +116,8 @@
       //   pagination : '.swiper-pagination',
       //   centeredSlides: true,
       //   width : window.innerWidth,
-      // })      
-    })    
+      // })
+    })
   </script>
   <script type="text/javascript">
   var domain = 'https://15580083.qcloud.la/';
@@ -192,7 +192,7 @@
               // DOM 更新了
               var left = $('.detail--userinfo_container').outerHeight() + $('.detail-container--item').outerHeight()
              	$('.content--detail__container').height(left > right ? left : right)
-            })            
+            })
           })
           .catch(function (error) {
             console.log(error);
@@ -230,7 +230,7 @@
                 displayValue: true,
                 height: 50,
                 width: 3
-              });   
+              });
             }
           }(i), 10)
           // setTimeout(function() {
@@ -239,7 +239,7 @@
             //   displayValue: true,
             //   height: 50,
             //   width: 3
-            // });          
+            // });
           // }, 10)
         }
       },

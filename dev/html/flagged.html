@@ -45,7 +45,7 @@
         </header>
         <div class="item--info">
           <span class="info--left-part"><span class="title">Created: </span><span class="content">{{item.order[0].start_time}}</span></span>
-          <span class="info--right-part"><span class="title">items: </span><span class="content">{{item.order.length}}</span></span>
+          <span class="info--right-part"><span class="title">order numbers: </span><span class="content">{{item.order.length}}</span></span>
         </div>
         <p class="item--price">${{item.order[0].price}}</p>
         <div class="item--status">
@@ -64,8 +64,8 @@
           <div class="status--item_shipped">
             <image v-if="item.order[0].pickedup == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
             <image v-if="item.order[0].pickedup == 1" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
-            <p v-if="item.order[0].pickedup == 0" class="item--title">Unpicked</p>
-            <p v-if="item.order[0].pickedup == 1" class="item--title">Picked</p>
+            <p v-if="item.order[0].pickedup == 0" class="item--title">Not Delivered</p>
+            <p v-if="item.order[0].pickedup == 1" class="item--title">Delivered</p>
           </div>
         </div>
       </section>
@@ -75,14 +75,14 @@
       </div>
       <div v-if="currentPage >= page && showStatus == 0" class="get-more">
         -- No more --
-      </div> 
+      </div>
       <!--已完成-->
       <div v-if="finishedCurrentPage < finishedPage && showStatus == 1" @click="showMoreFinished" class="get-more">
         Click for more
       </div>
       <div v-if="finishedCurrentPage >= finishedPage && showStatus == 1" class="get-more">
         -- No more --
-      </div>            
+      </div>
     </div>
   </body>
   <script src="https://15580083.qcloud.la/Public/js/jquery-2.1.1.min.js" charset="utf-8"></script>
@@ -130,8 +130,8 @@
           })
           .catch(function (error) {
             console.log(error);
-          });        
-      },      
+          });
+      },
       showMore() {
         this.currentPage ++
         this.getOrderList()
