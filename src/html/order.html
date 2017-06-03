@@ -54,7 +54,7 @@
           <div class="detail--userinfo_container">
             <div v-if="consignee != ''"><span>Consignee: </span><span>{{consignee}}</span></div>
             <div v-if="flt_num != ''"><span>Flt Number: </span><span>{{flt_num}}</span></div>
-            <div v-if="birthdate != ''"><span>Birthdate: </span><span>{{birthdate}}</span></div>
+            <div v-if="takeoff_time != ''"><span>Takeoff Time: </span><span>{{takeoff_time}}</span></div>
             <div v-if="psp_num != ''"><span>PSP Number: </span><span>{{psp_num}}</span></div>
           </div>
         </div>
@@ -141,7 +141,7 @@
         receipt: '',
         sn: '',
         flt_num: '',
-        birthdate: '',
+        takeoff_time: '',
         psp_num: '',
         start_time: '',
         flagged: '',
@@ -180,7 +180,7 @@
             _this.consignee = response.data.data.order[0].consignee
             _this.flt_num = response.data.data.order[0].flt_num
             _this.psp_num = response.data.data.order[0].psp_num
-            _this.birthdate = response.data.data.order[0].birthdate
+            _this.takeoff_time = response.data.data.order[0].takeoff_time
             _this.nickname = response.data.data.nickname
             _this.item_number = response.data.data.items
             _this.totalPrice = response.data.data.total_price
