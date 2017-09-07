@@ -45,11 +45,11 @@
         <div class="content--detail__container">
           <p class="detail-container--item_absolute">Created time: <span class="item--value">{{start_time}}</span></p>
           <p class="detail-container--item">Items: <span class="item--value">{{item_number}}</span></p>
-          <!-- <p class="detail-container--item">Need receipt: <span class="item--value">{{receipt == 0 ? 'No' : 'Yes'}}</span></p> -->
-          <p class="deco" v-if="refund == 0"><span @click="refundHandler">REFUND</span></p>
-          <p class="deco" v-if="refund == 1">REFUNDED</p>
-          <p class="deco" v-show="flagged == 0"><span @click="flaggedHandler">FLAG</span></p>
-          <p class="deco" v-show="flagged == 1"><span @click="flaggedHandler">FLAGGED</span></p>
+          <p class="detail-container--item">Need receipt: <span class="item--value">{{receipt == 0 ? 'No' : 'Yes'}}</span></p>
+          <p class="deco" v-if="refund == 0" class="detail-container--item"><span @click="refundHandler">REFUND</span></p>
+          <p class="deco" v-if="refund == 1" class="detail-container--item">REFUNDED</p>
+          <p class="deco" v-show="flagged == 0" class="detail-container--item"><span @click="flaggedHandler">FLAG</span></p>
+          <p class="deco" v-show="flagged == 1" class="detail-container--item"><span @click="flaggedHandler">FLAGGED</span></p>
           <p class="detail-container--item">Total fee: <span class="item--value red">${{totalPrice}}</span></p>
           <div class="detail--userinfo_container">
             <div v-if="consignee != ''"><span>Consignee: </span><span>{{consignee}}</span></div>
@@ -81,7 +81,7 @@
             <div v-if="pickedup == 0" class="item--title">Not Delivered</div>
             <div v-if="pickedup == 1" class="item--title">Delivered</div>
           </div>
-        </div>
+        </div>        
       </section>
       <div class="order--content_items" v-if="tabStatus == 'content'">
         <div class="takeplace" style="height: 1rem; background-color: #f0f0f0"></div>
@@ -94,7 +94,7 @@
                 </header>
                 <image class="content--image" :src="item.product.order_banner"></image>
                 <div class="content--value-content">
-                  <div class="value--left-part" style="margin: 0">Items： {{item.number}}</div>
+                  <div class="value--left-part" style="margin: 0;">Items： {{item.number}}</div>
                   <div class="value--right-part">Total Price： <span class="price">${{item.price}}</span></div>
                 </div>
                 <svg :id="'bar' + index + item.product.barcode_num"></svg>
@@ -116,8 +116,8 @@
       //   pagination : '.swiper-pagination',
       //   centeredSlides: true,
       //   width : window.innerWidth,
-      // })
-    })
+      // })      
+    })    
   </script>
   <script type="text/javascript">
   var domain = 'https://15580083.qcloud.la/';
@@ -192,7 +192,7 @@
               // DOM 更新了
               var left = $('.detail--userinfo_container').outerHeight() + $('.detail-container--item').outerHeight()
              	$('.content--detail__container').height(left > right ? left : right)
-            })
+            })            
           })
           .catch(function (error) {
             console.log(error);
@@ -230,7 +230,7 @@
                 displayValue: true,
                 height: 50,
                 width: 3
-              });
+              });   
             }
           }(i), 10)
           // setTimeout(function() {
@@ -239,7 +239,7 @@
             //   displayValue: true,
             //   height: 50,
             //   width: 3
-            // });
+            // });          
           // }, 10)
         }
       },

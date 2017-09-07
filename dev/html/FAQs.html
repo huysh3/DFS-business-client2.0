@@ -21,7 +21,7 @@
       </header>
       <section class="main-content">
         <div class="faq-item" v-for="item in list">
-          <!-- <p class="title" @click="showDesc(item.id)">{{item.title}}</p> -->
+          <p class="title" @click="showDesc(item.id)">{{item.title}}</p>
           <p :data-id="item.id" class="desc">
             {{item.desc}}
           </p>
@@ -36,43 +36,43 @@
     el: '#app',
     data: function() {
       return {
-        // list: [
-        //   {
-        //     id: 1,
-        //     title: '1.Lorem ipsum dolor sit amet?',
-        //     desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
-        //   },
-        //   {
-        //     id: 2,
-        //     title: '2.Lorem ipsum dolor sit amet?',
-        //     desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
-        //   },
-        //   {
-        //     id: 3,
-        //     title: '3.Lorem ipsum dolor sit amet?',
-        //     desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
-        //   },
-        //   {
-        //     id: 4,
-        //     title: '4.Lorem ipsum dolor sit amet?',
-        //     desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
-        //   },
-        //   {
-        //     id: 5,
-        //     title: '5.Lorem ipsum dolor sit amet?',
-        //     desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
-        //   },
-        //   {
-        //     id: 6,
-        //     title: '6.Lorem ipsum dolor sit amet?',
-        //     desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
-        //   },
-        //   {
-        //     id: 7,
-        //     title: '7.Lorem ipsum dolor sit amet?',
-        //     desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
-        //   }
-        // ],
+        list: [
+          {
+            id: 1,
+            title: '1.Lorem ipsum dolor sit amet?',
+            desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
+          },
+          {
+            id: 2,
+            title: '2.Lorem ipsum dolor sit amet?',
+            desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
+          },
+          {
+            id: 3,
+            title: '3.Lorem ipsum dolor sit amet?',
+            desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
+          },
+          {
+            id: 4,
+            title: '4.Lorem ipsum dolor sit amet?',
+            desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
+          },
+          {
+            id: 5,
+            title: '5.Lorem ipsum dolor sit amet?',
+            desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
+          },
+          {
+            id: 6,
+            title: '6.Lorem ipsum dolor sit amet?',
+            desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
+          },
+          {
+            id: 7,
+            title: '7.Lorem ipsum dolor sit amet?',
+            desc: 'There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..There is no end to the making of books.Nor there..',
+          }
+        ],
         activeId: '',
       }
     },
@@ -110,7 +110,7 @@
       },
       routerGoHome() {
         window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
-      },
+      },      
     }
   })
   </script>

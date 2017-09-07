@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
   <head>
     <meta name="viewport" content="width=device-width, user-scalable=no">
@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-swarovski-business.css">
+    <!-- <link rel="stylesheet" href="https://15580083.qcloud.la/Public/css/style-swarovski-business.css"> -->
+    <link rel="stylesheet" href="../css/style-swarovski-business.css">
     <script src="https://15580083.qcloud.la/Public/js/axios.min.js"></script>
     <script src="https://15580083.qcloud.la/Public/js/vue.min.js"></script>
     <title>List</title>
@@ -17,6 +18,9 @@
         height: 2rem;
         line-height: 2rem;
         color: #999;
+      }
+      .tab--right-part_primary.active {
+        color: #F80B0B !important;
       }
     </style>
   </head>
@@ -29,55 +33,64 @@
         <span @click="logout" class="right-icon">Logout</span>
       </header>
       <section class="list--tab">
-        <span @click="showOrderList" class="tab--left-part_primary active">Pending</span>
-        <span @click="showFinishedOrderList" class="tab--right-part_primary">Finished</span>
+        <!-- <span @click="showOrderList" class="tab--left-part_primary active">Pending</span>
+        <span @click="showFinishedOrderList" class="tab--right-part_primary">Finished</span> -->
+        <span style="color: #999; font-size: .6rem;" @click="changeListStatus" data-id="created" class="tab--right-part_primary active">created</span>
+        <span style="color: #999; font-size: .6rem;" @click="changeListStatus" data-id="bagged" class="tab--right-part_primary">bagged</span>
+        <span style="color: #999; font-size: .6rem;" @click="changeListStatus" data-id="paid" class="tab--right-part_primary">paid</span>
+        <span style="color: #999; font-size: .6rem;" @click="changeListStatus" data-id="delivered" class="tab--right-part_primary">delivered</span>
+        <span style="color: #999; font-size: .6rem;" @click="changeListStatus" data-id="abandoned" class="tab--right-part_primary">abandoned</span>
       </section>
-
       <section class="list-search--btn">
         <div @click="search" class="search--btn">Search</div>
       </section>
 
       <!-- 用于循环 -->
-      <section class="list--item" v-for="item in indexList" v-show="item.order[0].pickedup == showStatus">
-        <header @click="routerGoOrder(item.order_id, item.uid)" class="item--header">
-          <span class="header--left-part">{{item.order_id}}</span>
-          <span class="header--right-part">{{item.nickname}}</span>
+      <!-- <section class="list--item" v-for="item in indexList" v-show="item.order[0].pickedup == showStatus"> -->
+      <section class="list--item" v-for="item in indexList">
+        <header class="item--header">
+          <span class="header--left-part">{{item.nickname}} - {{item.order_id}}</span>
+          <span class="header--right-part">
+            <img @click="deleteOrder(item.order_id)" style="width: 1.4rem; margin-top: .2rem;" src="https://ws2.sinaimg.cn/large/006tKfTcgy1fj7v2rmph9j303c0340sh.jpg" alt="">
+          </span>
         </header>
-        <div class="item--info">
-          <span class="info--left-part"><span class="title">Created: </span><span class="content">{{item.order[0].start_time}}</span></span>
-          <span class="info--right-part"><span class="title">items: </span><span class="content">{{item.order.length}}</span></span>
-        </div>
-        <p class="item--price">${{item.total_fee}}</p>
-        <div class="item--status">
-          <div class="status--item_paid">
-            <image v-if="item.order[0].paid == 0" class="item--icon" src="http://ww3.sinaimg.cn/large/006tKfTcgy1ffizt3nsq6j302i02igle.jpg"></image>
-            <image v-if="item.order[0].paid == 1" class="item--icon" src="http://ww2.sinaimg.cn/large/006tKfTcgy1ffizqca8onj3050050mx3.jpg"></image>
-            <p v-if="item.order[0].paid == 0" class="item--title">Unpaid</p>
-            <p v-if="item.order[0].paid == 1" class="item--title">Paid</p>
+        <div @click="routerGoOrder(item.order_id, item.uid)">
+          <div class="item--info">
+            <span class="info--left-part"><span class="title">Created: </span><span class="content">{{item.order[0].start_time}}</span></span>
+            <span class="info--right-part"><span class="title">items: </span><span class="content">{{item.order.length}}</span></span>
           </div>
-          <div class="status--item_bagged">
-            <image v-if="item.order[0].bagged == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsmo6gkj302i02iwe9.jpg"></image>
-            <image v-if="item.order[0].bagged == 1" class="item--icon" src="http://ww4.sinaimg.cn/large/006tKfTcgy1ffizs9iwbfj3050050745.jpg"></image>
-            <p v-if="item.order[0].bagged == 0" class="item--title">Unbagged</p>
-            <p v-if="item.order[0].bagged == 1" class="item--title">Bagged</p>
-          </div>
-          <div class="status--item_shipped">
-            <image v-if="item.order[0].pickedup == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
-            <image v-if="item.order[0].pickedup == 1" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
-            <p v-if="item.order[0].pickedup == 0" class="item--title">Not Delivered</p>
-            <p v-if="item.order[0].pickedup == 1" class="item--title">Delivered</p>
+          <p class="item--price">${{item.total_fee}}</p>
+          <div class="item--status">
+            <div class="status--item_paid">
+              <image v-if="item.order[0].paid == 0" class="item--icon" src="http://ww3.sinaimg.cn/large/006tKfTcgy1ffizt3nsq6j302i02igle.jpg"></image>
+              <image v-if="item.order[0].paid == 1" class="item--icon" src="http://ww2.sinaimg.cn/large/006tKfTcgy1ffizqca8onj3050050mx3.jpg"></image>
+              <p v-if="item.order[0].paid == 0" class="item--title">Unpaid</p>
+              <p v-if="item.order[0].paid == 1" class="item--title">Paid</p>
+            </div>
+            <div class="status--item_bagged">
+              <image v-if="item.order[0].bagged == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsmo6gkj302i02iwe9.jpg"></image>
+              <image v-if="item.order[0].bagged == 1" class="item--icon" src="http://ww4.sinaimg.cn/large/006tKfTcgy1ffizs9iwbfj3050050745.jpg"></image>
+              <p v-if="item.order[0].bagged == 0" class="item--title">Unbagged</p>
+              <p v-if="item.order[0].bagged == 1" class="item--title">Bagged</p>
+            </div>
+            <div class="status--item_shipped">
+              <image v-if="item.order[0].pickedup == 0" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizsv479kj302i02i3ya.jpg"></image>
+              <image v-if="item.order[0].pickedup == 1" class="item--icon" src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffizrw655rj3050050a9y.jpg"></image>
+              <p v-if="item.order[0].pickedup == 0" class="item--title">Not Delivered</p>
+              <p v-if="item.order[0].pickedup == 1" class="item--title">Delivered</p>
+            </div>
           </div>
         </div>
       </section>
       <!--未完成-->
-      <div v-if="currentPage < page && showStatus == 0" @click="showMore" class="get-more">
+      <div v-if="currentPage < page && showStatus == 0" @click="showMore" class="get-more" :data-id="listStatus">
         Click for more
       </div>
       <div v-if="currentPage >= page && showStatus == 0" class="get-more">
         -- No more --
       </div> 
       <!--已完成-->
-      <div v-if="finishedCurrentPage < finishedPage && showStatus == 1" @click="showMoreFinished" class="get-more">
+      <div v-if="finishedCurrentPage < finishedPage && showStatus == 1" @click="showMoreFinished" class="get-more" :data-id="listStatus">
         Click for more
       </div>
       <div v-if="finishedCurrentPage >= finishedPage && showStatus == 1" class="get-more">
@@ -100,45 +113,80 @@
         page: 99,
         finishedPage: 99,
         showStatus: 0,
+        listStatus: 'created'
       }
     },
     mounted: function() {
-      this.getOrderList()
+      this.getOrderList(this.listStatus)
     },
     methods: {
-      getOrderList() {
+      deleteOrder(order_id) {
+        console.log(order_id)
         var _this = this
-        axios.get(domain + 'V2/shop/order_list?currentPage=' + _this.currentPage)
+        var a = confirm('Make Sure to delete order!')
+        if (a == false) { return ; }
+        axios.get(domain + 'V2/shop/deleteOrder?order_id=' + order_id)
+            .then(function () {
+              _this.getOrderList(_this.listStatus)
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+      },
+      getOrderList(filter) {
+        var _this = this
+        axios.get(domain + 'V2/shop/orderList?currentPage=' + _this.currentPage + '&filter=' + filter)
+          .then(function (response) {
+            console.log(response.data.data)
+            _this.orderList = response.data.data.orderList
+            _this.page = response.data.data.page
+            // _this.indexList = _this.indexList.concat(_this.orderList)
+            _this.indexList = _this.orderList
+            console.log(_this.indexList)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
+      changeListStatus(e) {
+        this.listStatus = $(e.currentTarget).data('id')
+        this.currentPage = 1
+        $('.tab--right-part_primary').removeClass('active')
+        $(e.currentTarget).addClass('active')
+        this.getOrderList($(e.currentTarget).data('id'))
+      },
+      // getFinishedOrderList() {
+      //   var _this = this
+      //   axios.get(domain + 'V2/shop/finished_order_list?currentPage=' + _this.finishedCurrentPage)
+      //     .then(function (response) {
+      //       console.log(response.data.data)
+      //       _this.orderList = response.data.data.orderList
+      //       _this.finishedPage = response.data.data.page
+      //       _this.indexList = _this.indexList.concat(_this.orderList)
+      //     })
+      //     .catch(function (error) {
+      //       console.log(error);
+      //     });
+      // },      
+      showMore(e) {
+        var _this = this
+        this.currentPage ++
+        axios.get(domain + 'V2/shop/orderList?currentPage=' + _this.currentPage + '&filter=' + _this.listStatus)
           .then(function (response) {
             console.log(response.data.data)
             _this.orderList = response.data.data.orderList
             _this.page = response.data.data.page
             _this.indexList = _this.indexList.concat(_this.orderList)
+            // _this.indexList = _this.orderList
+            console.log(_this.indexList)
           })
           .catch(function (error) {
             console.log(error);
           });
       },
-      getFinishedOrderList() {
-        var _this = this
-        axios.get(domain + 'V2/shop/finished_order_list?currentPage=' + _this.finishedCurrentPage)
-          .then(function (response) {
-            console.log(response.data.data)
-            _this.orderList = response.data.data.orderList
-            _this.finishedPage = response.data.data.page
-            _this.indexList = _this.indexList.concat(_this.orderList)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      },      
-      showMore() {
-        this.currentPage ++
-        this.getOrderList()
-      },
-      showMoreFinished() {
+      showMoreFinished(e) {
         this.finishedCurrentPage ++
-        this.getFinishedOrderList()
+        this.getFinishedOrderList($(e.currentTarget).data('id'))
       },
       showOrderList() {
         $('.list--tab span').removeClass('active')

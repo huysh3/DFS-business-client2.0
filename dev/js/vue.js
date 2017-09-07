@@ -1,13 +1,16 @@
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 /*!
  * Vue.js v1.0.26
  * (c) 2016 Evan You
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.Vue = factory());
-}(this, function () { 'use strict';
+  (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.Vue = factory();
+})(undefined, function () {
+  'use strict';
 
   function set(obj, key, val) {
     if (hasOwn(obj, key)) {
@@ -265,7 +268,7 @@
    */
 
   function isObject(obj) {
-    return obj !== null && typeof obj === 'object';
+    return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
   }
 
   /**
@@ -392,7 +395,7 @@
     /* eslint-enable eqeqeq */
   }
 
-  var hasProto = ('__proto__' in {});
+  var hasProto = '__proto__' in {};
 
   // Browser environment sniffing
   var inBrowser = typeof window !== 'undefined' && Object.prototype.toString.call(window) !== '[object Object]';
@@ -437,7 +440,7 @@
    * @param {Object} ctx
    */
 
-  var nextTick = (function () {
+  var nextTick = function () {
     var callbacks = [];
     var pending = false;
     var timerFunc;
@@ -458,7 +461,7 @@
       observer.observe(textNode, {
         characterData: true
       });
-      timerFunc = function () {
+      timerFunc = function timerFunc() {
         counter = (counter + 1) % 2;
         textNode.data = counter;
       };
@@ -478,7 +481,7 @@
       pending = true;
       timerFunc(nextTickHandler, 0);
     };
-  })();
+  }();
 
   var _Set = undefined;
   /* istanbul ignore if */
@@ -487,7 +490,7 @@
     _Set = Set;
   } else {
     // a non-standard Set polyfill that only works with primitive keys.
-    _Set = function () {
+    _Set = function _Set() {
       this.set = Object.create(null);
     };
     _Set.prototype.has = function (key) {
@@ -748,7 +751,7 @@
     return dir;
   }
 
-var directive = Object.freeze({
+  var directive = Object.freeze({
     parseDirective: parseDirective
   });
 
@@ -899,7 +902,7 @@ var directive = Object.freeze({
     }
   }
 
-var text = Object.freeze({
+  var text = Object.freeze({
     compileRegex: compileRegex,
     parseText: parseText,
     tokensToExp: tokensToExp
@@ -1018,13 +1021,13 @@ var text = Object.freeze({
     (function () {
       var hasConsole = typeof console !== 'undefined';
 
-      warn = function (msg, vm) {
+      warn = function warn(msg, vm) {
         if (hasConsole && !config.silent) {
           console.error('[Vue warn]: ' + msg + (vm ? formatComponentName(vm) : ''));
         }
       };
 
-      formatComponentName = function (vm) {
+      formatComponentName = function formatComponentName(vm) {
         var name = vm._isVue ? vm.$options.name : vm.name;
         return name ? ' (found in component: <' + hyphenate(name) + '>)' : '';
       };
@@ -1107,7 +1110,7 @@ var text = Object.freeze({
     transition[action](op, cb);
   }
 
-var transition = Object.freeze({
+  var transition = Object.freeze({
     appendWithTransition: appendWithTransition,
     beforeWithTransition: beforeWithTransition,
     removeWithTransition: removeWithTransition,
@@ -1294,7 +1297,7 @@ var transition = Object.freeze({
 
   function getClass(el) {
     var classname = el.className;
-    if (typeof classname === 'object') {
+    if ((typeof classname === 'undefined' ? 'undefined' : _typeof(classname)) === 'object') {
       classname = classname.baseVal || '';
     }
     return classname;
@@ -1398,10 +1401,10 @@ var transition = Object.freeze({
   function trimNode(node) {
     var child;
     /* eslint-disable no-sequences */
-    while ((child = node.firstChild, isTrimmable(child))) {
+    while (child = node.firstChild, isTrimmable(child)) {
       node.removeChild(child);
     }
-    while ((child = node.lastChild, isTrimmable(child))) {
+    while (child = node.lastChild, isTrimmable(child)) {
       node.removeChild(child);
     }
     /* eslint-enable no-sequences */
@@ -1552,7 +1555,7 @@ var transition = Object.freeze({
 
   var isUnknownElement = undefined;
   if ('development' !== 'production') {
-    isUnknownElement = function (el, tag) {
+    isUnknownElement = function isUnknownElement(el, tag) {
       if (tag.indexOf('-') > -1) {
         // http://stackoverflow.com/a/28210364/1070244
         return el.constructor === window.HTMLUnknownElement || el.constructor === window.HTMLElement;
@@ -2226,7 +2229,7 @@ var transition = Object.freeze({
    */
 
   function observe(value, vm) {
-    if (!value || typeof value !== 'object') {
+    if (!value || (typeof value === 'undefined' ? 'undefined' : _typeof(value)) !== 'object') {
       return;
     }
     var ob;
@@ -2297,84 +2300,94 @@ var transition = Object.freeze({
     });
   }
 
-
-
   var util = Object.freeze({
-  	defineReactive: defineReactive,
-  	set: set,
-  	del: del,
-  	hasOwn: hasOwn,
-  	isLiteral: isLiteral,
-  	isReserved: isReserved,
-  	_toString: _toString,
-  	toNumber: toNumber,
-  	toBoolean: toBoolean,
-  	stripQuotes: stripQuotes,
-  	camelize: camelize,
-  	hyphenate: hyphenate,
-  	classify: classify,
-  	bind: bind,
-  	toArray: toArray,
-  	extend: extend,
-  	isObject: isObject,
-  	isPlainObject: isPlainObject,
-  	def: def,
-  	debounce: _debounce,
-  	indexOf: indexOf,
-  	cancellable: cancellable,
-  	looseEqual: looseEqual,
-  	isArray: isArray,
-  	hasProto: hasProto,
-  	inBrowser: inBrowser,
-  	devtools: devtools,
-  	isIE: isIE,
-  	isIE9: isIE9,
-  	isAndroid: isAndroid,
-  	isIos: isIos,
-  	iosVersionMatch: iosVersionMatch,
-  	iosVersion: iosVersion,
-  	hasMutationObserverBug: hasMutationObserverBug,
-  	get transitionProp () { return transitionProp; },
-  	get transitionEndEvent () { return transitionEndEvent; },
-  	get animationProp () { return animationProp; },
-  	get animationEndEvent () { return animationEndEvent; },
-  	nextTick: nextTick,
-  	get _Set () { return _Set; },
-  	query: query,
-  	inDoc: inDoc,
-  	getAttr: getAttr,
-  	getBindAttr: getBindAttr,
-  	hasBindAttr: hasBindAttr,
-  	before: before,
-  	after: after,
-  	remove: remove,
-  	prepend: prepend,
-  	replace: replace,
-  	on: on,
-  	off: off,
-  	setClass: setClass,
-  	addClass: addClass,
-  	removeClass: removeClass,
-  	extractContent: extractContent,
-  	trimNode: trimNode,
-  	isTemplate: isTemplate,
-  	createAnchor: createAnchor,
-  	findRef: findRef,
-  	mapNodeRange: mapNodeRange,
-  	removeNodeRange: removeNodeRange,
-  	isFragment: isFragment,
-  	getOuterHTML: getOuterHTML,
-  	mergeOptions: mergeOptions,
-  	resolveAsset: resolveAsset,
-  	checkComponentAttr: checkComponentAttr,
-  	commonTagRE: commonTagRE,
-  	reservedTagRE: reservedTagRE,
-  	get warn () { return warn; }
+    defineReactive: defineReactive,
+    set: set,
+    del: del,
+    hasOwn: hasOwn,
+    isLiteral: isLiteral,
+    isReserved: isReserved,
+    _toString: _toString,
+    toNumber: toNumber,
+    toBoolean: toBoolean,
+    stripQuotes: stripQuotes,
+    camelize: camelize,
+    hyphenate: hyphenate,
+    classify: classify,
+    bind: bind,
+    toArray: toArray,
+    extend: extend,
+    isObject: isObject,
+    isPlainObject: isPlainObject,
+    def: def,
+    debounce: _debounce,
+    indexOf: indexOf,
+    cancellable: cancellable,
+    looseEqual: looseEqual,
+    isArray: isArray,
+    hasProto: hasProto,
+    inBrowser: inBrowser,
+    devtools: devtools,
+    isIE: isIE,
+    isIE9: isIE9,
+    isAndroid: isAndroid,
+    isIos: isIos,
+    iosVersionMatch: iosVersionMatch,
+    iosVersion: iosVersion,
+    hasMutationObserverBug: hasMutationObserverBug,
+    get transitionProp() {
+      return transitionProp;
+    },
+    get transitionEndEvent() {
+      return transitionEndEvent;
+    },
+    get animationProp() {
+      return animationProp;
+    },
+    get animationEndEvent() {
+      return animationEndEvent;
+    },
+    nextTick: nextTick,
+    get _Set() {
+      return _Set;
+    },
+    query: query,
+    inDoc: inDoc,
+    getAttr: getAttr,
+    getBindAttr: getBindAttr,
+    hasBindAttr: hasBindAttr,
+    before: before,
+    after: after,
+    remove: remove,
+    prepend: prepend,
+    replace: replace,
+    on: on,
+    off: off,
+    setClass: setClass,
+    addClass: addClass,
+    removeClass: removeClass,
+    extractContent: extractContent,
+    trimNode: trimNode,
+    isTemplate: isTemplate,
+    createAnchor: createAnchor,
+    findRef: findRef,
+    mapNodeRange: mapNodeRange,
+    removeNodeRange: removeNodeRange,
+    isFragment: isFragment,
+    getOuterHTML: getOuterHTML,
+    mergeOptions: mergeOptions,
+    resolveAsset: resolveAsset,
+    checkComponentAttr: checkComponentAttr,
+    commonTagRE: commonTagRE,
+    reservedTagRE: reservedTagRE,
+    get warn() {
+      return warn;
+    }
   });
 
   var uid = 0;
 
-  function initMixin (Vue) {
+  function initMixin(Vue) {
     /**
      * The main init sequence. This is called for every
      * instance, including ones that are created from extended
@@ -2747,7 +2760,7 @@ var transition = Object.freeze({
 
   var warnNonExistent;
   if ('development' !== 'production') {
-    warnNonExistent = function (path, vm) {
+    warnNonExistent = function warnNonExistent(path, vm) {
       warn('You are setting a non-existent path "' + path.raw + '" ' + 'on a vm instance. Consider pre-initializing the property ' + 'with the "data" option for more reliable reactivity ' + 'and better performance.', vm);
     };
   }
@@ -2800,7 +2813,7 @@ var transition = Object.freeze({
     return true;
   }
 
-var path = Object.freeze({
+  var path = Object.freeze({
     parsePath: parsePath,
     getPath: getPath,
     setPath: setPath
@@ -3002,7 +3015,7 @@ var path = Object.freeze({
     exp.slice(0, 5) !== 'Math.';
   }
 
-var expression = Object.freeze({
+  var expression = Object.freeze({
     parseExpression: parseExpression,
     isSimplePath: isSimplePath
   });
@@ -3424,11 +3437,15 @@ var expression = Object.freeze({
       }
       if (isA) {
         i = val.length;
-        while (i--) traverse(val[i], seen);
+        while (i--) {
+          traverse(val[i], seen);
+        }
       } else if (isO) {
         keys = Object.keys(val);
         i = keys.length;
-        while (i--) traverse(val[keys[i]], seen);
+        while (i--) {
+          traverse(val[keys[i]], seen);
+        }
       }
     }
   }
@@ -3567,7 +3584,7 @@ var expression = Object.freeze({
 
   // Test for the presence of the Safari template cloning bug
   // https://bugs.webkit.org/showug.cgi?id=137755
-  var hasBrokenTemplate = (function () {
+  var hasBrokenTemplate = function () {
     /* istanbul ignore else */
     if (inBrowser) {
       var a = document.createElement('div');
@@ -3576,10 +3593,10 @@ var expression = Object.freeze({
     } else {
       return false;
     }
-  })();
+  }();
 
   // Test for IE10/11 textarea placeholder clone bug
-  var hasTextareaCloneBug = (function () {
+  var hasTextareaCloneBug = function () {
     /* istanbul ignore else */
     if (inBrowser) {
       var t = document.createElement('textarea');
@@ -3588,7 +3605,7 @@ var expression = Object.freeze({
     } else {
       return false;
     }
-  })();
+  }();
 
   /**
    * 1. Deal with Safari cloning nested <template> bug by
@@ -3694,7 +3711,7 @@ var expression = Object.freeze({
     return frag && shouldClone ? cloneNode(frag) : frag;
   }
 
-var template = Object.freeze({
+  var template = Object.freeze({
     cloneNode: cloneNode,
     parseTemplate: parseTemplate
   });
@@ -5181,7 +5198,7 @@ var template = Object.freeze({
       // stub a noop for v-on with no value,
       // e.g. @mousedown.prevent
       if (!this.descriptor.raw) {
-        handler = function () {};
+        handler = function handler() {};
       }
 
       if (typeof handler !== 'function') {
@@ -6133,9 +6150,9 @@ var template = Object.freeze({
                 prop: prop
               }, null, null, scope); // el, host, scope
             } else {
-                // root instance
-                initProp(vm, prop, vm.$get(prop.parentPath));
-              }
+              // root instance
+              initProp(vm, prop, vm.$get(prop.parentPath));
+            }
           }
         } else if (prop.optimizedLiteral) {
           // optimized literal, cast it and just set once
@@ -6298,7 +6315,7 @@ var template = Object.freeze({
     if (typeof coerce === 'function') {
       return coerce(value);
     } else {
-      'development' !== 'production' && warn('Invalid coerce for prop "' + prop.name + '": expected function, got ' + typeof coerce + '.', vm);
+      'development' !== 'production' && warn('Invalid coerce for prop "' + prop.name + '": expected function, got ' + (typeof coerce === 'undefined' ? 'undefined' : _typeof(coerce)) + '.', vm);
       return value;
     }
   }
@@ -6316,16 +6333,16 @@ var template = Object.freeze({
     var expectedType;
     if (type === String) {
       expectedType = 'string';
-      valid = typeof value === expectedType;
+      valid = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === expectedType;
     } else if (type === Number) {
       expectedType = 'number';
-      valid = typeof value === expectedType;
+      valid = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === expectedType;
     } else if (type === Boolean) {
       expectedType = 'boolean';
-      valid = typeof value === expectedType;
+      valid = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === expectedType;
     } else if (type === Function) {
       expectedType = 'function';
-      valid = typeof value === expectedType;
+      valid = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === expectedType;
     } else if (type === Object) {
       expectedType = 'object';
       valid = isPlainObject(value);
@@ -7817,17 +7834,15 @@ var template = Object.freeze({
     return frag;
   }
 
-
-
   var compiler = Object.freeze({
-  	compile: compile,
-  	compileAndLinkProps: compileAndLinkProps,
-  	compileRoot: compileRoot,
-  	transclude: transclude,
-  	resolveSlots: resolveSlots
+    compile: compile,
+    compileAndLinkProps: compileAndLinkProps,
+    compileRoot: compileRoot,
+    transclude: transclude,
+    resolveSlots: resolveSlots
   });
 
-  function stateMixin (Vue) {
+  function stateMixin(Vue) {
     /**
      * Accessor for `$data` property, since setting $data
      * requires observing the new object and updating
@@ -8069,7 +8084,7 @@ var template = Object.freeze({
 
   var eventRE = /^v-on:|^@/;
 
-  function eventsMixin (Vue) {
+  function eventsMixin(Vue) {
     /**
      * Setup the instance's option events & watchers.
      * If the value is a string, we pull it from the
@@ -8147,7 +8162,7 @@ var template = Object.freeze({
      */
 
     function register(vm, action, key, handler, options) {
-      var type = typeof handler;
+      var type = typeof handler === 'undefined' ? 'undefined' : _typeof(handler);
       if (type === 'function') {
         vm[action](key, handler, options);
       } else if (type === 'string') {
@@ -8532,7 +8547,7 @@ var template = Object.freeze({
     }
   };
 
-  function lifecycleMixin (Vue) {
+  function lifecycleMixin(Vue) {
     /**
      * Update v-ref for component.
      *
@@ -8779,7 +8794,7 @@ var template = Object.freeze({
     };
   }
 
-  function miscMixin (Vue) {
+  function miscMixin(Vue) {
     /**
      * Apply a list of filter (descriptors) to a value.
      * Using plain for loops here because this will be called in
@@ -8870,7 +8885,7 @@ var template = Object.freeze({
 
   var filterRE$1 = /[^|]\|[^|]/;
 
-  function dataAPI (Vue) {
+  function dataAPI(Vue) {
     /**
      * Get the value from an expression on this vm.
      *
@@ -9044,7 +9059,7 @@ var template = Object.freeze({
     }
   }
 
-  function domAPI (Vue) {
+  function domAPI(Vue) {
     /**
      * Convenience on-instance nextTick. The callback is
      * auto-bound to the instance, and this avoids component
@@ -9229,7 +9244,7 @@ var template = Object.freeze({
     }
   }
 
-  function eventsAPI (Vue) {
+  function eventsAPI(Vue) {
     /**
      * Listen on the given `event` with `fn`.
      *
@@ -9420,7 +9435,7 @@ var template = Object.freeze({
     }
   }
 
-  function lifecycleAPI (Vue) {
+  function lifecycleAPI(Vue) {
     /**
      * Set instance target element and kick off the compilation
      * process. The passed in `el` can be a selector string, an
@@ -9678,7 +9693,7 @@ var template = Object.freeze({
    */
 
   function orderBy(arr) {
-    var comparator = null;
+    var _comparator = null;
     var sortKeys = undefined;
     arr = convertArray(arr);
 
@@ -9698,15 +9713,15 @@ var template = Object.freeze({
       return arr;
     } else if (typeof firstArg === 'function') {
       // custom comparator
-      comparator = function (a, b) {
+      _comparator = function comparator(a, b) {
         return firstArg(a, b) * order;
       };
     } else {
       // string keys. flatten first
       sortKeys = Array.prototype.concat.apply([], args);
-      comparator = function (a, b, i) {
+      _comparator = function comparator(a, b, i) {
         i = i || 0;
-        return i >= sortKeys.length - 1 ? baseCompare(a, b, i) : baseCompare(a, b, i) || comparator(a, b, i + 1);
+        return i >= sortKeys.length - 1 ? baseCompare(a, b, i) : baseCompare(a, b, i) || _comparator(a, b, i + 1);
       };
     }
 
@@ -9724,7 +9739,7 @@ var template = Object.freeze({
     }
 
     // sort on a copy to avoid mutating original array
-    return arr.slice().sort(comparator);
+    return arr.slice().sort(_comparator);
   }
 
   /**
@@ -9872,7 +9887,7 @@ var template = Object.freeze({
     }
   };
 
-  function installGlobalAPI (Vue) {
+  function installGlobalAPI(Vue) {
     /**
      * Vue and every constructor that extends Vue has an
      * associated options object, which can be accessed during
@@ -10069,5 +10084,4 @@ var template = Object.freeze({
   }, 0);
 
   return Vue;
-
-}));
+});

@@ -243,7 +243,7 @@ samp {
  */
 
 figure {
-  margin: 1em 2rem;
+  margin: 1em 40px;
 }
 
 /**
@@ -351,7 +351,7 @@ button:-moz-focusring,
 
 fieldset {
   border: 1px solid #c0c0c0;
-  margin: 0 0.1rem;
+  margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
 
@@ -415,7 +415,7 @@ textarea {
 [type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
-  outline-offset: -0.1rem;
+  outline-offset: -2px;
   /* 2 */
 }
 
@@ -653,7 +653,7 @@ svg:not(:root) {
  */
 
 figure {
-  margin: 1em 2rem;
+  margin: 1em 40px;
 }
 
 /**
@@ -839,7 +839,7 @@ input[type="search"]::-webkit-search-decoration {
 
 fieldset {
   border: 1px solid #c0c0c0;
-  margin: 0 0.1rem;
+  margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
 
@@ -984,7 +984,6 @@ html[data-rem="320"] {
 .banner-content {
   height: 2.7rem;
   position: relative;
-  background: url('https://15580083.qcloud.la/Public/img/DFS-banner.png') no-repeat;
   background-size: cover;
   background-position: center;
 }
@@ -1215,7 +1214,6 @@ html[data-rem="320"] {
 }
 
 .list-container .options-content .options-item.active .check-icon {
-  background: url('https://15580083.qcloud.la/Public/img/check-box (2).png');
   background-size: 1rem 1rem;
   position: relative;
   top: .2rem;
@@ -1350,7 +1348,6 @@ html[data-rem="320"] {
 }
 
 .order-container .check-icon {
-  background: url('https://15580083.qcloud.la/Public/img/check-box-white.png');
   background-size: 1rem 1rem;
   position: relative;
   top: .2rem;
@@ -1360,7 +1357,6 @@ html[data-rem="320"] {
 }
 
 .order-container .tab-item.active .check-icon {
-  background: url('https://15580083.qcloud.la/Public/img/check-box-white-active.png');
   background-size: 1rem 1rem;
 }
 
