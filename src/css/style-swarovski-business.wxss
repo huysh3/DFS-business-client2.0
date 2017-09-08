@@ -1390,9 +1390,18 @@ button.swiper-pagination-bullet {
   font-size: .8rem;
   color: #fff;
   flex: 1;
-}
-.list-container .list--item .header--right-part {
   text-align: right;
+}
+.list-container .list--item .header--right-part .state-picker {
+  border: 1px solid #fff;
+  padding: .1rem .8rem;
+  width: 100%;
+  border-radius: 0;
+  background-color: #fff;
+  color: #F80B0B;
+  padding: 0;
+  text-align: right;
+  font-size: .6rem;
 }
 .list-container .list--item .item--info {
   display: flex;
@@ -1419,6 +1428,9 @@ button.swiper-pagination-bullet {
   font-weight: bold;
   margin-left: .3rem;
   margin-top: .7rem;
+  text-align: right;
+  padding-right: .3rem;
+  padding-bottom: .7rem;
 }
 .list-container .list--item .item--status {
   display: flex;
