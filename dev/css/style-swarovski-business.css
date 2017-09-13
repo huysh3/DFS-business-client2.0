@@ -1755,7 +1755,7 @@ button.swiper-pagination-bullet {
 
 .order-container .content--detail__header .detail--header_left,
 .order-container .content--options__header .detail--header_left {
-  flex: 1;
+  flex: 3;
 }
 
 .order-container .content--detail__header .detail--header_right,

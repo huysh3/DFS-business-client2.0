@@ -89,10 +89,10 @@
         }
       },
       logout() {
-        axios.get(domain + 'V2/shop/logout')
+        axios.get(domain + 'V3/shop/logout')
           .then(function (response) {
             if (response.data.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
+              window.location.href = 'https://15580083.qcloud.la/V3/shop/client_login'
             }
           })
           .catch(function (response) {
@@ -109,7 +109,7 @@
         window.location.href = 'https://15580083.qcloud.la/Home/shop/client_FAQs'
       },
       routerGoHome() {
-        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V3/shop/client_navPage'
       },      
     }
   })

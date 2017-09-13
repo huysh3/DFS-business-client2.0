@@ -12,6 +12,14 @@
     <script src="https://15580083.qcloud.la/Public/js/vue.min.js"></script>
     <title>List</title>
     <style type="text/css">
+      @font-face {
+        font-family: 'iconfont';  /* project id 84475 */
+        src: url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.eot');
+        src: url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.eot?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.woff') format('woff'),
+        url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.ttf') format('truetype'),
+        url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.svg#iconfont') format('svg');
+      }    
       .get-more {
         text-align: center;
         font-size: .7rem;
@@ -22,6 +30,26 @@
       .tab--right-part_primary.active {
         color: #F80B0B !important;
       }
+      .list-sort--content {
+        display: flex;
+        font-size: .8rem;
+        color: #F80B0B;
+        padding: .7rem;
+      }
+      .list-sort--left-part {
+        flex: 1;
+        text-align: center;
+        border: 1px solid #F80B0B;
+        border-radius: .2rem;
+        margin: 0 .7rem;
+      }
+      .list-sort--right-part {
+        flex: 1;
+        text-align: center;
+        border: 1px solid #F80B0B;
+        border-radius: .2rem;
+        margin: 0 .7rem;
+      }
     </style>
   </head>
   <body>
@@ -29,12 +57,9 @@
       <header class="swarovski--header">
         <image @click="routerGoHome" src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqghtp5aj301a019gld.jpg" class="left-icon"></image>
         <p class="title">DFS</p>
-        <!--<image src="http://ww2.sinaimg.cn/large/006tNbRwgy1ffgqdcuxmsj301u0193y9.jpg" class="right-icon"></image>-->
         <span @click="logout" class="right-icon">Logout</span>
       </header>
       <section class="list--tab">
-        <!-- <span @click="showOrderList" class="tab--left-part_primary active">Pending</span>
-        <span @click="showFinishedOrderList" class="tab--right-part_primary">Finished</span> -->
         <span style="color: #999; font-size: .6rem;" @click="changeListStatus" data-id="created" class="tab--right-part_primary active">created</span>
         <span style="color: #999; font-size: .6rem;" @click="changeListStatus" data-id="bagged" class="tab--right-part_primary">bagged</span>
         <span style="color: #999; font-size: .6rem;" @click="changeListStatus" data-id="paid" class="tab--right-part_primary">paid</span>
@@ -44,14 +69,21 @@
       <section class="list-search--btn">
         <div @click="search" class="search--btn">Search</div>
       </section>
-
+      <section class="list-sort--content">
+        <div @click="sortOrderList($event, 'takeoff_time')" data-sortkey="ASC" class="list-sort--left-part">
+          Flight Time Sort
+        </div>
+        <div @click="sortOrderList($event, 'start_time')" data-sortkey="DESC" class="list-sort--right-part">
+          Order Time Sort
+        </div>
+      </section> 
       <!-- 用于循环 -->
       <!-- <section class="list--item" v-for="item in indexList" v-show="item.order[0].pickedup == showStatus"> -->
       <section class="list--item" v-for="(item, index) in indexList">
         <header class="item--header">
           <span class="header--left-part">{{item.nickname}} - {{item.order_id}}</span>
           <span class="header--right-part">
-            <select class="state-picker" style="background-color: rgba(0, 0, 0, 0); border: 1px solid #fff;" @change="orderStateChange($event, index)" :value="listStatus">
+            <select class="state-picker" style="color: #fff; background-color: rgba(0, 0, 0, 0); border: 1px solid #fff;" @change="orderStateChange($event, index)" :value="listStatus">
               <option value="created">created</option>
               <option value="bagged">bagged</option>
               <option value="paid">paid</option>
@@ -60,7 +92,7 @@
             </select>
           </span>
           <!-- <span class="header--right-part">
-            <img @click="deleteOrder(item.order_id)" style="width: 1.4rem; margin-top: .2rem;" src="https://ws2.sinaimg.cn/large/006tKfTcgy1fj7v2rmph9j303c0340sh.jpg" alt="">
+            <img @click="deleteOrder(item.order_id)" style="width: 1.4rem; margin-top: .2rem;" src="https://ws2.sinaimg.cn/large/006tKfTcgy1fj7V3rmph9j303c0340sh.jpg" alt="">
           </span> -->
         </header>
         <div @click="routerGoOrder(item.order_id, item.uid)">
@@ -122,19 +154,18 @@
         var _this = this
         var order_id = this.indexList[index].order_id
         var order_change = $($event.currentTarget).val()
-        axios.get(domain + 'V2/shop/orderStatusChange?order_id=' + order_id + '&order_change=' + order_change)
+        axios.get(domain + 'V3/shop/orderStatusChange?order_id=' + order_id + '&order_change=' + order_change)
           .then(function (res) {
             console.log(res.data)
             _this.getOrderList(_this.listStatus)
           })
-
       },
       deleteOrder(order_id) {
         console.log(order_id)
         var _this = this
         var a = confirm('Make Sure to delete order!')
         if (a == false) { return ; }
-        axios.get(domain + 'V2/shop/deleteOrder?order_id=' + order_id)
+        axios.get(domain + 'V3/shop/deleteOrder?order_id=' + order_id)
             .then(function () {
               _this.getOrderList(_this.listStatus)
             })
@@ -144,7 +175,7 @@
       },
       getOrderList(filter) {
         var _this = this
-        axios.get(domain + 'V2/shop/orderList?currentPage=' + '1' + '&filter=' + filter)
+        axios.get(domain + 'V3/shop/orderList?currentPage=' + '1' + '&filter=' + filter)
           .then(function (response) {
             console.log(response.data.data)
             _this.orderList = response.data.data.orderList
@@ -164,23 +195,26 @@
         $(e.currentTarget).addClass('active')
         this.getOrderList($(e.currentTarget).data('id'))
       },
-      // getFinishedOrderList() {
-      //   var _this = this
-      //   axios.get(domain + 'V2/shop/finished_order_list?currentPage=' + _this.finishedCurrentPage)
-      //     .then(function (response) {
-      //       console.log(response.data.data)
-      //       _this.orderList = response.data.data.orderList
-      //       _this.finishedPage = response.data.data.page
-      //       _this.indexList = _this.indexList.concat(_this.orderList)
-      //     })
-      //     .catch(function (error) {
-      //       console.log(error);
-      //     });
-      // },      
+      sortOrderList($event, sort_func) {
+        var _this = this
+        var sortkey = $($event.currentTarget).data('sortkey')
+        $($event.currentTarget).data('sortkey') == 'ASC' ? $($event.currentTarget).data('sortkey', 'DESC') : $($event.currentTarget).data('sortkey', 'ASC')
+        axios.get(domain + 'V3/shop/orderList?currentPage=1' + '&filter=' + this.listStatus + '&sort=' + sort_func + ' ' + sortkey)
+          .then(function (response) {
+            console.log(response.data.data)
+            _this.orderList = response.data.data.orderList
+            _this.page = response.data.data.page
+            _this.indexList = _this.orderList
+            console.log(response.data.data.orderList[0].order_id)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
       showMore(e) {
         var _this = this
         this.currentPage ++
-        axios.get(domain + 'V2/shop/orderList?currentPage=' + _this.currentPage + '&filter=' + _this.listStatus)
+        axios.get(domain + 'V3/shop/orderList?currentPage=' + _this.currentPage + '&filter=' + _this.listStatus)
           .then(function (response) {
             console.log(response.data.data)
             _this.orderList = response.data.data.orderList
@@ -221,7 +255,7 @@
         if (a == null) {
           return false;
         }
-        axios.get(domain + 'V2/shop/likeSearch?string=' + a)
+        axios.get(domain + 'V3/shop/likeSearch?string=' + a)
           .then(function (response) {
             console.log(response.data)
             _this.orderList = response.data.data
@@ -232,10 +266,10 @@
           });
       },
       logout() {
-        axios.get(domain + 'V2/shop/logout')
+        axios.get(domain + 'V3/shop/logout')
           .then(function (response) {
             if (response.data.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
+              window.location.href = 'https://15580083.qcloud.la/V3/shop/client_login'
             }
           })
           .catch(function (response) {
@@ -243,19 +277,19 @@
           })
       },
       routerGoHome() {
-        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V3/shop/client_navPage'
       },
       routerGoOrder(order_id, uid) {
-        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_order?order_id=' + order_id + '&uid=' + uid
+        window.location.href = 'https://15580083.qcloud.la/V3/shop/client_order?order_id=' + order_id + '&uid=' + uid
       },
       routerGoList() {
-        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_list'
+        window.location.href = 'https://15580083.qcloud.la/V3/shop/client_list'
       },
       routerGoInventory() {
-        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_inventory'
+        window.location.href = 'https://15580083.qcloud.la/V3/shop/client_inventory'
       },
       routerGoFAQs() {
-        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_FAQs'
+        window.location.href = 'https://15580083.qcloud.la/V3/shop/client_FAQs'
       },
     }
   })

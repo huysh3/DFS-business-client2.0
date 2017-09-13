@@ -57,7 +57,7 @@
     methods: {
       getInventory() {
         var _this = this
-        axios.get(domain + 'V2/shop/inventory_list')
+        axios.get(domain + 'V3/shop/inventory_list')
           .then(function (response) {
             _this.lists = response.data.data
           })
@@ -69,7 +69,7 @@
         axios.get(domain + 'Home/shop/logout')
           .then(function (response) {
             if (response.data.data == 0) {
-              window.location.href = 'https://15580083.qcloud.la/V2/shop/client_login'
+              window.location.href = 'https://15580083.qcloud.la/V3/shop/client_login'
             }
           })
           .catch(function (response) {
@@ -77,7 +77,7 @@
           })
       },
       routerGoHome() {
-        window.location.href = 'https://15580083.qcloud.la/V2/shop/client_navPage'
+        window.location.href = 'https://15580083.qcloud.la/V3/shop/client_navPage'
       },
       routerGoList() {
         window.location.href = 'https://15580083.qcloud.la/Home/shop/client_list'
