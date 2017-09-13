@@ -13,13 +13,20 @@
     <title>List</title>
     <style type="text/css">
       @font-face {
-        font-family: 'iconfont';  /* project id 84475 */
-        src: url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.eot');
-        src: url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.eot?#iefix') format('embedded-opentype'),
-        url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.woff') format('woff'),
-        url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.ttf') format('truetype'),
-        url('//at.alicdn.com/t/font_bsks9suwdsegsyvi.svg#iconfont') format('svg');
-      }    
+        font-family: 'iconfont';  /* project id 235224 */
+        src: url('//at.alicdn.com/t/font_235224_d157rsq7oxtlz0k9.eot');
+        src: url('//at.alicdn.com/t/font_235224_d157rsq7oxtlz0k9.eot?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_235224_d157rsq7oxtlz0k9.woff') format('woff'),
+        url('//at.alicdn.com/t/font_235224_d157rsq7oxtlz0k9.ttf') format('truetype'),
+        url('//at.alicdn.com/t/font_235224_d157rsq7oxtlz0k9.svg#iconfont') format('svg');
+      }
+      .iconfont{
+        font-family:"iconfont" !important;
+        font-size:16px;font-style:normal;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: 0.2px;
+        -moz-osx-font-smoothing: grayscale;
+      }      
       .get-more {
         text-align: center;
         font-size: .7rem;
@@ -50,6 +57,13 @@
         border-radius: .2rem;
         margin: 0 .7rem;
       }
+      .iconfont-container {
+        display: inline-block;
+        transition: all .4s ease;
+      }
+      .iconfont-container.active {
+        transform: rotate(180deg);
+      }
     </style>
   </head>
   <body>
@@ -71,10 +85,10 @@
       </section>
       <section class="list-sort--content">
         <div @click="sortOrderList($event, 'takeoff_time')" data-sortkey="ASC" class="list-sort--left-part">
-          Flight Time Sort
+          Flight Time Sort <span class="iconfont-container active"><i class="iconfont">&#xe63a;</i></span> 
         </div>
         <div @click="sortOrderList($event, 'start_time')" data-sortkey="DESC" class="list-sort--right-part">
-          Order Time Sort
+          Order Time Sort <span class="iconfont-container"><i class="iconfont active">&#xe63a;</i></span>
         </div>
       </section> 
       <!-- 用于循环 -->
@@ -199,6 +213,7 @@
         var _this = this
         var sortkey = $($event.currentTarget).data('sortkey')
         $($event.currentTarget).data('sortkey') == 'ASC' ? $($event.currentTarget).data('sortkey', 'DESC') : $($event.currentTarget).data('sortkey', 'ASC')
+        $($event.currentTarget).data('sortkey') == 'ASC' ? $($event.currentTarget).children('.iconfont-container').addClass('active') : $($event.currentTarget).children('.iconfont-container').removeClass('active')
         axios.get(domain + 'V3/shop/orderList?currentPage=1' + '&filter=' + this.listStatus + '&sort=' + sort_func + ' ' + sortkey)
           .then(function (response) {
             console.log(response.data.data)
